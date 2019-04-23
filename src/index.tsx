@@ -1,12 +1,38 @@
 import * as React from "react";
 import { render } from "react-dom";
 import { differenceInMinutes, parse, format, isDate, isValid } from "date-fns";
-import useInterval from "@use-hooks/interval";
 import { useQueryParam, StringParam } from "use-query-params";
 
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
 
 import "./styles.css";
+
+const useTitle = (title: string) => {
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+};
+
+function useInterval(callback: () => void, delay: number) {
+  const savedCallback = useRef<any>();
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback && savedCallback.current && savedCallback.current();
+    }
+
+    if (delay !== null) {
+      const id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
 
 interface HoursSinceProps {
   sinceTime?: string;
@@ -37,15 +63,14 @@ function HoursSince({
     setHoursSince(`${fullHoursBetween + percentPartialHour}`);
   }
 
-  useEffect(
-    () => {
-      update(sinceTime ? parse(sinceTime) : undefined);
-    },
-    [sinceTime]
-  );
+  useEffect(() => {
+    update(sinceTime ? parse(sinceTime) : undefined);
+  }, [sinceTime]);
   useInterval(() => {
     update(sinceTime ? parse(sinceTime) : undefined);
   }, 30000);
+
+  useTitle(`${hoursSince} hours since ${sinceTime}`);
 
   return <span>{hoursSince} hours</span>;
 }
@@ -59,9 +84,11 @@ function App() {
     setStartQuery(newVal);
   }
 
-  if (!sinceTime) {
+  if (!startQuery) {
     const defaultVal = "6:45 AM";
     setTime(defaultVal);
+  } else if (!sinceTime) {
+    setSinceTime(startQuery);
   }
 
   return (
