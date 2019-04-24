@@ -36,16 +36,17 @@ function useInterval(callback: () => void, delay: number) {
 
 interface HoursSinceProps {
   sinceTime?: string;
-  nowTime?: Date;
 }
 
-function HoursSince({
-  sinceTime,
-  nowTime = new Date()
-}: HoursSinceProps): JSX.Element {
+function HoursSince({ sinceTime }: HoursSinceProps): JSX.Element {
   const [hoursSince, setHoursSince] = useState(undefined as string | undefined);
+  const [hoursMinutesSince, setHoursMinutesSince] = useState(undefined as
+    | string
+    | undefined);
 
-  function update(startDateTime) {
+  function update(startDateTime: Date | undefined) {
+    const nowTime = new Date();
+
     if (!isDate(startDateTime) || !isValid(startDateTime)) {
       startDateTime = parse(format(nowTime, "MM/DD/YYYY ") + sinceTime);
     }
@@ -60,6 +61,8 @@ function HoursSince({
 
     const percentPartialHour = full15MinIncrements / 60;
 
+    const decimalHoursBetween = `${fullHoursBetween}:${remainingMinutes}`;
+    setHoursMinutesSince(decimalHoursBetween);
     setHoursSince(`${fullHoursBetween + percentPartialHour}`);
   }
 
@@ -68,11 +71,15 @@ function HoursSince({
   }, [sinceTime]);
   useInterval(() => {
     update(sinceTime ? parse(sinceTime) : undefined);
-  }, 30000);
+  }, 10000);
 
-  useTitle(`${hoursSince} hours since ${sinceTime}`);
+  useTitle(`${hoursSince} (${hoursMinutesSince}) hours since ${sinceTime}`);
 
-  return <span>{hoursSince} hours</span>;
+  return (
+    <span>
+      {hoursSince} ({hoursMinutesSince}) hours
+    </span>
+  );
 }
 
 function App() {
