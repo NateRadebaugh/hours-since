@@ -17,6 +17,8 @@
     "typescript": "3.5.3"
   },
   "scripts": {
+    "now-dev": "react-scripts start",
+    "now-build": "react-scripts build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
