@@ -1,6 +1,5 @@
 {
   "version": 2,
   "name": "hours-since",
-  "alias": "hours-since.now.sh",
-  "builds": [{ "src": "package.json", "use": "@now/static-build" }]
+  "alias": "hours-since.now.sh"
 }
