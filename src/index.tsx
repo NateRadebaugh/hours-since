@@ -35,15 +35,14 @@ function App() {
     setRawSinceTime(startQuery);
   }
 
+  const messagePrefix = `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}`;
+
   return (
     <div className="App">
       <h1>
-        {typeof isPast === "boolean" && (
-          <>
-            {hoursSince} ({hoursMinutesSince}) hours {relativeWord}{" "}
-          </>
-        )}
+        {typeof isPast === "boolean" && messagePrefix}
         <input
+          aria-label={messagePrefix}
           onChange={(e) => setSinceTime(e.target.value)}
           value={sinceTime}
         />
