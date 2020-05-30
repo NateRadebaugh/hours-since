@@ -14,7 +14,7 @@
   "devDependencies": {
     "@types/react": "16.9.35",
     "@types/react-dom": "16.9.8",
-    "typescript": "3.9.2"
+    "typescript": "3.9.3"
   },
   "scripts": {
     "now-dev": "react-scripts start",
