@@ -12,8 +12,14 @@
     "use-query-params": "0.3.3"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-links": "^5.3.19",
+    "@storybook/addons": "^5.3.19",
+    "@storybook/preset-create-react-app": "^3.0.0",
+    "@storybook/react": "^5.3.19",
     "@types/react": "16.9.35",
     "@types/react-dom": "16.9.8",
+    "chromatic": "^4.0.3",
     "typescript": "3.9.3"
   },
   "scripts": {
@@ -23,7 +29,10 @@
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public",
+    "chromatic": "chromatic"
   },
   "browserslist": [
     ">0.2%",
