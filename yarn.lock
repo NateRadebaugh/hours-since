@@ -12622,10 +12622,10 @@ serialize-javascript@^3.0.0:
   dependencies:
     randombytes "^2.1.0"
 
-serialize-query-params@^0.1.3:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/serialize-query-params/-/serialize-query-params-0.1.4.tgz#c671f253860bfcb410fe7c64b13c4cd55ca611e8"
-  integrity sha512-d3GHKPAOBULhCMg+jM687vRIMnTXMo8M0lHUOVeFxSGYvfmNlksiOpLyb0orhXPhhFCvZvt+SwC2iPRVIhKS/g==
+serialize-query-params@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/serialize-query-params/-/serialize-query-params-0.3.0.tgz#c815306729463f2a37adb171faf352992fcc0ce8"
+  integrity sha512-gtarsAa5B7L+v2mxbm0zTq8WjqwjgYHZmLsyvxGnlSfW2bWkokV0QKzRxLCGHF2aDqbQYCCNaj1/NP6DqbcEKQ==
   dependencies:
     query-string "^5.0.0"
 
@@ -13960,12 +13960,12 @@ use-callback-ref@^1.2.1:
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.3.tgz#9f939dfb5740807bbf9dd79cdd4e99d27e827756"
   integrity sha512-DPBPh1i2adCZoIArRlTuKRy7yue7QogtEnfv0AKrWsY+GA+4EKe37zhRDouNnyWMoNQFYZZRF+2dLHsWE4YvJA==
 
-use-query-params@0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/use-query-params/-/use-query-params-0.3.3.tgz#358bee7235964fd8456e4f45dd39eebe5f668ccc"
-  integrity sha512-WnuR6ks8XZfKaFJIljskhJuuhtellHkLSnMRIusYBnah+zTqZuPilGATY92I7lf38hazZm34QZ+kDM3KjfaSPg==
+use-query-params@0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/use-query-params/-/use-query-params-0.6.0.tgz#66e2f25b0ed3f18ec38a493779513335b8b2bf54"
+  integrity sha512-AEZm0+TTYuV3/l/IC+Iyqkvol1muXWJd2hlgY2erFESvtZNIpU4BrsTo6jnOBFd/t6rTOQuFjKSmW/+TAy8mzQ==
   dependencies:
-    serialize-query-params "^0.1.3"
+    serialize-query-params "^0.3.0"
 
 use-sidecar@^1.0.1:
   version "1.0.2"
