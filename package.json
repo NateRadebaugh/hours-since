@@ -9,7 +9,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-scripts": "3.4.1",
-    "use-query-params": "0.3.3"
+    "use-query-params": "0.6.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^5.3.19",
