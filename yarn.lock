@@ -1730,7 +1730,7 @@
     regenerator-runtime "^0.13.3"
     ts-dedent "^1.1.1"
 
-"@storybook/addons@5.3.19", "@storybook/addons@^5.3.19":
+"@storybook/addons@5.3.19":
   version "5.3.19"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-5.3.19.tgz#3a7010697afd6df9a41b8c8a7351d9a06ff490a4"
   integrity sha512-Ky/k22p6i6FVNvs1VhuFyGvYJdcp+FgXqFgnPyY/OXJW/vPDapdElpTpHJZLFI9I2FQBDcygBPU5RXkumQ+KUQ==
@@ -1743,7 +1743,7 @@
     global "^4.3.2"
     util-deprecate "^1.0.2"
 
-"@storybook/addons@6.0.3":
+"@storybook/addons@6.0.3", "@storybook/addons@^6.0.3":
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-6.0.3.tgz#c9a724212d1ebda0aff1dc50915d3005dc6780aa"
   integrity sha512-uIXRgW3C/7/DCV9P9IHtFWPyJiydqXnPE6FmPTuqDYtvBVLzI7gpH5OizJv7iyXCNf+1BmSspdDhlUPKk0YyZg==
