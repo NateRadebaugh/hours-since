@@ -5,7 +5,7 @@
   "keywords": [],
   "main": "src/index.tsx",
   "dependencies": {
-    "date-fns": "2.16.0",
+    "date-fns": "2.16.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-scripts": "3.4.3",
