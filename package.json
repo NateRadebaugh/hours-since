@@ -18,7 +18,7 @@
     "@types/react": "16.9.53",
     "@types/react-dom": "16.9.8",
     "chromatic": "^5.2.0",
-    "typescript": "4.0.3"
+    "typescript": "4.0.5"
   },
   "scripts": {
     "now-dev": "react-scripts start",
