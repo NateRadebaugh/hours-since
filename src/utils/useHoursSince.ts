@@ -5,7 +5,7 @@ import useInterval from "./useInterval";
 const { useState, useCallback, useEffect } = React;
 
 const dayFormat = "MM/dd/yyyy";
-const timeFormat = "hh:mm a";
+export const timeFormat = "h:mm a";
 
 export interface HoursSinceDetails {
   isPast: boolean | undefined;
