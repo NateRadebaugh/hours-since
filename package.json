@@ -21,7 +21,7 @@
     "@storybook/addons": "^6.1.9",
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.15",
-    "@types/react": "^17.0.0",
+    "@types/react": "^17.0.1",
     "@types/react-dom": "17.0.0",
     "chromatic": "^5.6.1",
     "sass": "^1.32.5",
