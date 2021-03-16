@@ -1,5 +1,8 @@
 import React from "react";
-import App from "../App";
+import App from "../pages/index";
+
+import "../styles/styles.scss";
+import "@nateradebaugh/react-datetime/scss/styles.scss";
 
 const RealDate = Date;
 
