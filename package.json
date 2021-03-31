@@ -12,7 +12,7 @@
     "@nateradebaugh/react-datetime": "^4.4.6",
     "clsx": "^1.1.1",
     "date-fns": "2.19.0",
-    "next": "^10.0.9",
+    "next": "^10.1.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "use-query-params": "0.6.0"
