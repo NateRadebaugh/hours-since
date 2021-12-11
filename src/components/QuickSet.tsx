@@ -4,7 +4,13 @@ import { timeFormat } from "../utils/useHoursSince";
 
 import styles from "./QuickSet.module.scss";
 
-export default function QuickSet({ startTimes, sinceTime, setSinceTime }) {
+interface QuickSetProps {
+  startTimes: Date[];
+  sinceTime: string | undefined;
+  setSinceTime: (newVal: string) => void;
+}
+
+export default function QuickSet({ startTimes, sinceTime, setSinceTime }: QuickSetProps) {
   return (
     <div className={styles.wrapper}>
       {startTimes.map((startTime) => {

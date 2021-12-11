@@ -44,7 +44,7 @@ function Page() {
 
   const messagePrefix = `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}`;
 
-  const theDate = parse(sinceTime, timeFormat, new Date());
+  const theDate = parse(sinceTime ?? "", timeFormat, new Date());
   const asValue =
     isDate(theDate) &&
     isValid(theDate) &&

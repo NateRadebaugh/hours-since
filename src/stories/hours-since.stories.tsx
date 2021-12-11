@@ -6,7 +6,7 @@ import "@nateradebaugh/react-datetime/scss/styles.scss";
 
 const RealDate = Date;
 
-function mockDate(isoDate) {
+function mockDate(isoDate: Date) {
   //@ts-ignore
   global.Date = class extends RealDate {
     //@ts-ignore
