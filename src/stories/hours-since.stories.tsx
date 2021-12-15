@@ -22,7 +22,7 @@ export default {
   component: Home,
 };
 
-export const HomePage = () => {
+export const Example = () => {
   mockDate(new Date(2019, 0, 1, 7, 0, 0, 0));
   
   return <Home />;
