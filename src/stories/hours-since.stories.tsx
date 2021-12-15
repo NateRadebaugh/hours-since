@@ -1,8 +1,4 @@
-import React from "react";
-import App from "../pages/index";
-
-import "../styles/styles.scss";
-import "@nateradebaugh/react-datetime/scss/styles.scss";
+import Home from "../pages/index";
 
 const RealDate = Date;
 
@@ -23,11 +19,11 @@ function mockDate(isoDate: Date) {
 
 export default {
   title: "Hours Since",
-  component: App,
+  component: Home,
 };
 
-export function Example() {
+export const Example = () => {
   mockDate(new Date(2019, 0, 1, 7, 0, 0, 0));
-
-  return <App />;
-}
+  
+  return <Home />;
+};
