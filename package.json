@@ -10,10 +10,10 @@
     "chromatic": "chromatic"
   },
   "dependencies": {
-    "@nateradebaugh/react-datetime": "^4.4.7",
+    "@nateradebaugh/react-datetime": "^4.4.8",
     "clsx": "^1.1.1",
     "date-fns": "2.28.0",
-    "next": "^12.0.7",
+    "next": "^12.0.8",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "use-query-params": "0.6.0"
@@ -31,13 +31,13 @@
     "babel-loader": "^8.2.3",
     "chromatic": "^6.3.3",
     "css-loader": "^6.5.1",
-    "eslint": "8.6.0",
-    "eslint-config-next": "12.0.7",
+    "eslint": "8.7.0",
+    "eslint-config-next": "12.0.8",
     "eslint-plugin-storybook": "^0.5.5",
-    "sass": "^1.45.2",
+    "sass": "^1.48.0",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
     "typescript": "4.5.4",
-    "webpack": "5"
+    "webpack": "5.66.0"
   }
 }
