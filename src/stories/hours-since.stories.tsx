@@ -27,3 +27,13 @@ export const Example = () => {
   
   return <Home />;
 };
+
+Example.story = {
+  parameters: {
+    nextRouter: {
+      query: {
+        start: "6:45 AM",
+      },
+    },
+  },
+}
