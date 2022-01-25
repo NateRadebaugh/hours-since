@@ -17,8 +17,9 @@ for (
 
 function useTimeParam() {
   const router = useRouter();
-  const time = router.query.start;
-  const [_val, _setVal] = useState(time);
+  const timeArr = router.query.start;
+  const time = (Array.isArray(timeArr) ? timeArr[0] : timeArr) ?? "";
+  const [_val, _setVal] = useState<string>(time);
 
   useEffect(() => {
     if (_val !== time) {
@@ -44,9 +45,8 @@ function useTimeParam() {
 function Page() {
   const [sinceTime, setRawSinceTime] = useState<string | undefined>(undefined);
   const [startQuery, setStartQuery] = useTimeParam();
-  const { isPast, hoursSince, hoursMinutesSince, relativeWord } = useHoursSince(
-    sinceTime
-  );
+  const { isPast, hoursSince, hoursMinutesSince, relativeWord } =
+    useHoursSince(sinceTime);
 
   const title =
     isPast === undefined
