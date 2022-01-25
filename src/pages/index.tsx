@@ -1,7 +1,7 @@
 import DateTime from "@nateradebaugh/react-datetime";
 import { format, isDate, isValid, parse, addMinutes } from "date-fns";
-import { useState, useEffect } from "react";
-import { useQueryParam, StringParam } from "use-query-params";
+import Router, { useRouter } from "next/router";
+import { useState, useEffect, useCallback } from "react";
 import QuickSet from "../components/QuickSet";
 
 import useHoursSince, { timeFormat } from "../utils/useHoursSince";
@@ -15,9 +15,35 @@ for (
   startTimes.push(startTime);
 }
 
+function useTimeParam() {
+  const router = useRouter();
+  const time = router.query.start;
+  const [_val, _setVal] = useState(time);
+
+  useEffect(() => {
+    if (_val !== time) {
+      _setVal(time);
+    }
+  }, [_val, time]);
+
+  const setVal = useCallback(
+    (newVal: string) => {
+      _setVal(newVal);
+
+      Router.push({
+        pathname: "/",
+        query: { start: newVal },
+      });
+    },
+    [_setVal]
+  );
+
+  return [_val, setVal] as const;
+}
+
 function Page() {
   const [sinceTime, setRawSinceTime] = useState<string | undefined>(undefined);
-  const [startQuery, setStartQuery] = useQueryParam("start", StringParam);
+  const [startQuery, setStartQuery] = useTimeParam();
   const { isPast, hoursSince, hoursMinutesSince, relativeWord } = useHoursSince(
     sinceTime
   );
