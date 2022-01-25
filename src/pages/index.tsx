@@ -17,8 +17,7 @@ for (
 
 function useTimeParam() {
   const router = useRouter();
-  const timeArr = router.query.start;
-  const time = (Array.isArray(timeArr) ? timeArr[0] : timeArr) ?? "";
+  const time = router.query.start as unknown as string;
   const [_val, _setVal] = useState<string>(time);
 
   useEffect(() => {
@@ -62,8 +61,7 @@ function Page() {
   }
 
   if (startQuery === undefined) {
-    const defaultVal = "6:45 AM";
-    setSinceTime(defaultVal);
+    // leave it
   } else if (!sinceTime) {
     setRawSinceTime(startQuery);
   }
