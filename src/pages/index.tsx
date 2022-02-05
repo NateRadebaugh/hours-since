@@ -49,7 +49,7 @@ function Page() {
 
   const title =
     isPast === undefined
-      ? `${sinceTime}`
+      ? `${sinceTime ?? ""}`
       : `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord} ${sinceTime}`;
   useEffect(() => {
     document.title = title;

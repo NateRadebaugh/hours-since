@@ -12,7 +12,7 @@ interface QuickSetProps {
 
 export default function QuickSet({ startTimes, sinceTime, setSinceTime }: QuickSetProps) {
   return (
-    <div className={styles.wrapper}>
+    <div className={clsx(styles.wrapper, !sinceTime && styles.empty)}>
       {startTimes.map((startTime) => {
         const formatted = format(startTime, timeFormat);
         const isSelected = formatted === sinceTime;
