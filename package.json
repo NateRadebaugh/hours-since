@@ -30,7 +30,7 @@
     "babel-loader": "^8.2.3",
     "chromatic": "^6.5.1",
     "css-loader": "^6.6.0",
-    "eslint": "8.10.0",
+    "eslint": "8.11.0",
     "eslint-config-next": "12.1.0",
     "eslint-plugin-storybook": "^0.5.7",
     "sass": "^1.49.9",
