@@ -10,7 +10,7 @@
     "chromatic": "chromatic"
   },
   "dependencies": {
-    "@nateradebaugh/react-datetime": "^4.4.11",
+    "@nateradebaugh/react-datetime": "^4.5.1",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "next": "^12.3.1",
