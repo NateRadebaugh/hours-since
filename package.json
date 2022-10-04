@@ -18,7 +18,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.1",
+    "@babel/core": "^7.19.3",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",
     "@storybook/addon-links": "^6.5.12",
@@ -28,16 +28,16 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "babel-loader": "^8.2.5",
-    "chromatic": "^6.9.0",
+    "chromatic": "^6.10.1",
     "css-loader": "^6.7.1",
-    "eslint": "^8.23.1",
+    "eslint": "^8.24.0",
     "eslint-config-next": "^12.3.1",
     "eslint-plugin-storybook": "^0.6.4",
     "sass": "^1.55.0",
     "sass-loader": "^13.0.2",
     "storybook-addon-next-router": "^4.0.0",
     "style-loader": "^3.3.1",
-    "typescript": "^4.8.3",
+    "typescript": "^4.8.4",
     "webpack": "^5.74.0"
   }
 }
