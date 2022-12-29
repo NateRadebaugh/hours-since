@@ -22,18 +22,19 @@ export default {
   component: Home,
 };
 
-export const Example = () => {
+export const HoursSince = () => {
   mockDate(new Date(2019, 0, 1, 7, 0, 0, 0));
-  
+
   return <Home />;
 };
 
-Example.story = {
+HoursSince.story = {
   parameters: {
+    controls: { hideNoControlsWarning: true },
     nextRouter: {
       query: {
         start: "6:45 AM",
       },
     },
   },
-}
+};
