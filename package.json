@@ -20,7 +20,7 @@
   "devDependencies": {
     "@storybook/addon-actions": "^7.0.0-beta.29",
     "@storybook/addon-essentials": "^7.0.0-beta.29",
-    "@storybook/addon-links": "^7.0.0-beta.29",
+    "@storybook/addon-links": "^7.0.0-beta.30",
     "@storybook/nextjs": "^7.0.0-beta.29",
     "@storybook/react": "^7.0.0-beta.29",
     "@types/react": "^18.0.26",
