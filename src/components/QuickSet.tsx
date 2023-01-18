@@ -10,7 +10,11 @@ interface QuickSetProps {
   setSinceTime: (newVal: string) => void;
 }
 
-export default function QuickSet({ startTimes, sinceTime, setSinceTime }: QuickSetProps) {
+export default function QuickSet({
+  startTimes,
+  sinceTime,
+  setSinceTime,
+}: QuickSetProps) {
   return (
     <div className={clsx(styles.wrapper, !sinceTime && styles.empty)}>
       {startTimes.map((startTime) => {
