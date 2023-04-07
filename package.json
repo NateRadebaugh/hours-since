@@ -15,7 +15,7 @@
     "@nateradebaugh/react-datetime": "^4.6.0",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
-    "next": "^13.1.6",
+    "next": "^13.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
