@@ -5,7 +5,4 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 10
-    ignore:
-      - dependency-name: use-query-params
-        versions:
-          - ">= 1.a, < 2"
+
