@@ -29,7 +29,7 @@ function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
         startDateTime = parse(
           `${format(nowTime, `${dayFormat}`)} ${sinceTime}`,
           `${dayFormat} ${timeFormat}`,
-          new Date()
+          new Date(),
         );
       }
 
@@ -57,7 +57,7 @@ function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
       setHoursMinutesSince(decimalHoursBetween);
       setHoursSince(`${(fullHoursBetween + minutes15MinInterval).toFixed(2)}`);
     },
-    [sinceTime]
+    [sinceTime],
   );
 
   useEffect(() => {

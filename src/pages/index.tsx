@@ -35,7 +35,7 @@ function useTimeParam() {
         query: { start: newVal },
       });
     },
-    [_setVal]
+    [_setVal],
   );
 
   return [_val, setVal] as const;
