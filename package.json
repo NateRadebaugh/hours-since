@@ -20,7 +20,7 @@
     "@types/react": "^18.2.24",
     "@types/react-dom": "^18.2.13",
     "eslint": "^8.51.0",
-    "eslint-config-next": "^13.5.4",
+    "eslint-config-next": "^13.5.5",
     "prettier": "^3.0.3",
     "sass": "^1.69.3",
     "sass-loader": "^13.3.2",
