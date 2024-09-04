@@ -22,7 +22,7 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.7",
     "prettier": "^3.3.3",
-    "sass": "^1.77.8",
+    "sass": "^1.78.0",
     "sass-loader": "^16.0.1",
     "typescript": "^5.5.4"
   }
