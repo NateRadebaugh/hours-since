@@ -1,6 +1,9 @@
 {
   "name": "hours-since",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,15 +15,18 @@
     "@nateradebaugh/react-datetime": "^4.6.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "next": "^15.5.6",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "next": "^16.0.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.3.13",
-    "@types/react-dom": "^18.3.1",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "^15.5.6",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.1",
+    "eslint-config-next": "^16.0.3",
     "prettier": "^3.6.2",
     "sass": "^1.94.1",
     "sass-loader": "^16.0.6",
