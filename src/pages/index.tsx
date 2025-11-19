@@ -9,7 +9,7 @@ import useHoursSince, { timeFormat } from "../utils/useHoursSince";
 const startTimes: Date[] = [];
 for (
   let startTime = parse("5:15 AM", timeFormat, new Date()), i = 0;
-  i < 8;
+  i < 12;
   startTime = addMinutes(startTime, 15), i++
 ) {
   startTimes.push(startTime);
