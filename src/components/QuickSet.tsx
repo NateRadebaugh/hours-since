@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { format } from "date-fns";
+import { memo } from "react";
 import { timeFormat } from "../utils/useHoursSince";
 
 import styles from "./QuickSet.module.scss";
@@ -10,7 +11,7 @@ interface QuickSetProps {
   setSinceTime: (newVal: string) => void;
 }
 
-export default function QuickSet({
+function QuickSet({
   startTimes,
   sinceTime,
   setSinceTime,
@@ -40,3 +41,5 @@ export default function QuickSet({
     </div>
   );
 }
+
+export default memo(QuickSet);

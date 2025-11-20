@@ -2,7 +2,7 @@ import DateTime from "@nateradebaugh/react-datetime";
 import { format, isDate, isValid, parse, addMinutes } from "date-fns";
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import QuickSet from "../components/QuickSet";
 
 import useHoursSince, { timeFormat } from "../utils/useHoursSince";
@@ -48,16 +48,21 @@ function Page() {
   const { isPast, hoursSince, hoursMinutesSince, relativeWord } =
     useHoursSince(sinceTime);
 
-  const title =
-    isPast === undefined
-      ? "Hours Since - Time Tracker"
-      : `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord} ${sinceTime}`;
+  const title = useMemo(
+    () =>
+      isPast === undefined
+        ? "Hours Since - Time Tracker"
+        : `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord} ${sinceTime}`,
+    [isPast, hoursSince, hoursMinutesSince, relativeWord, sinceTime]
+  );
 
-
-  function setSinceTime(newVal: string) {
-    setRawSinceTime(newVal);
-    setStartQuery(newVal);
-  }
+  const setSinceTime = useCallback(
+    (newVal: string) => {
+      setRawSinceTime(newVal);
+      setStartQuery(newVal);
+    },
+    [setStartQuery]
+  );
 
   if (startQuery === undefined) {
     // leave it
@@ -67,13 +72,14 @@ function Page() {
 
   const messagePrefix = `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}`;
 
-  const theDate = parse(sinceTime ?? "", timeFormat, new Date());
-  const asValue =
-    isDate(theDate) &&
-    isValid(theDate) &&
-    format(theDate, timeFormat) === sinceTime
+  const asValue = useMemo(() => {
+    const theDate = parse(sinceTime ?? "", timeFormat, new Date());
+    return isDate(theDate) &&
+      isValid(theDate) &&
+      format(theDate, timeFormat) === sinceTime
       ? theDate
       : sinceTime;
+  }, [sinceTime]);
 
   return (
     <>
