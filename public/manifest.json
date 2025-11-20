@@ -1,0 +1,23 @@
+{
+  "name": "Hours Since - Time Tracker",
+  "short_name": "Hours Since",
+  "description": "Calculate hours and minutes since a specific time. Helpful for tracking time in 15-minute increments.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ed1a3b",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

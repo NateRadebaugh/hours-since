@@ -1,5 +1,6 @@
 import DateTime from "@nateradebaugh/react-datetime";
 import { format, isDate, isValid, parse, addMinutes } from "date-fns";
+import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import { useState, useEffect, useCallback } from "react";
 import QuickSet from "../components/QuickSet";
@@ -49,11 +50,9 @@ function Page() {
 
   const title =
     isPast === undefined
-      ? `${sinceTime ?? ""}`
+      ? "Hours Since - Time Tracker"
       : `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord} ${sinceTime}`;
-  useEffect(() => {
-    document.title = title;
-  }, [title]);
+
 
   function setSinceTime(newVal: string) {
     setRawSinceTime(newVal);
@@ -77,34 +76,39 @@ function Page() {
       : sinceTime;
 
   return (
-    <div className="App">
-      <h1>
-        {typeof isPast === "boolean" && messagePrefix}
-        <DateTime
-          aria-label={messagePrefix}
-          dateFormat={false}
-          timeFormat={timeFormat}
-          onChange={(newValue) => {
-            if (!newValue) {
-              setSinceTime("");
-            } else if (typeof newValue === "number") {
-              throw new Error("Not supported");
-            } else if (typeof newValue === "string") {
-              setSinceTime(newValue);
-            } else {
-              const asDate = newValue;
-              setSinceTime(format(asDate, timeFormat));
-            }
-          }}
-          value={asValue}
+    <>
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <div className="App">
+        <h1>
+          {typeof isPast === "boolean" && messagePrefix}
+          <DateTime
+            aria-label={messagePrefix}
+            dateFormat={false}
+            timeFormat={timeFormat}
+            onChange={(newValue) => {
+              if (!newValue) {
+                setSinceTime("");
+              } else if (typeof newValue === "number") {
+                throw new Error("Not supported");
+              } else if (typeof newValue === "string") {
+                setSinceTime(newValue);
+              } else {
+                const asDate = newValue;
+                setSinceTime(format(asDate, timeFormat));
+              }
+            }}
+            value={asValue}
+          />
+        </h1>
+        <QuickSet
+          startTimes={startTimes}
+          sinceTime={sinceTime}
+          setSinceTime={setSinceTime}
         />
-      </h1>
-      <QuickSet
-        startTimes={startTimes}
-        sinceTime={sinceTime}
-        setSinceTime={setSinceTime}
-      />
-    </div>
+      </div>
+    </>
   );
 }
 
