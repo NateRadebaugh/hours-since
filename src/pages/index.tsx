@@ -99,9 +99,12 @@ function Page() {
   );
 }
 
+// Subscribe function that never changes (returns no-op unsubscribe)
+const subscribeToNothing = () => () => {};
+
 function useIsClient() {
   return useSyncExternalStore(
-    () => () => {},
+    subscribeToNothing,
     () => true,
     () => false
   );
