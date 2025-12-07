@@ -1,7 +1,7 @@
 import DateTime from "@nateradebaugh/react-datetime";
 import { format, isDate, isValid, parse, addMinutes } from "date-fns";
 import Router, { useRouter } from "next/router";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import QuickSet from "../components/QuickSet";
 
 import useHoursSince, { timeFormat } from "../utils/useHoursSince";
@@ -18,27 +18,18 @@ for (
 function useTimeParam() {
   const router = useRouter();
   const time = router.query.start as unknown as string;
-  const [_val, _setVal] = useState<string>(time);
-
-  useEffect(() => {
-    if (_val !== time) {
-      _setVal(time);
-    }
-  }, [_val, time]);
 
   const setVal = useCallback(
     (newVal: string) => {
-      _setVal(newVal);
-
       Router.push({
         pathname: "/",
         query: { start: newVal },
       });
     },
-    [_setVal],
+    [],
   );
 
-  return [_val, setVal] as const;
+  return [time, setVal] as const;
 }
 
 function Page() {
@@ -108,14 +99,18 @@ function Page() {
   );
 }
 
+function useIsClient() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+}
+
 export default function Index() {
-  const [isInitialized, setIsInitialized] = useState(false);
+  const isClient = useIsClient();
 
-  useEffect(() => {
-    setIsInitialized(true);
-  }, []);
-
-  if (!isInitialized) {
+  if (!isClient) {
     return null;
   }
 
