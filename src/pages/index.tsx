@@ -1,19 +1,23 @@
 import DateTime from "@nateradebaugh/react-datetime";
 import { format, isDate, isValid, parse, addMinutes } from "date-fns";
 import Router, { useRouter } from "next/router";
-import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
+import { useState, useEffect, useCallback, useSyncExternalStore, useMemo } from "react";
 import QuickSet from "../components/QuickSet";
 
 import useHoursSince, { timeFormat } from "../utils/useHoursSince";
 
-const startTimes: Date[] = [];
-for (
-  let startTime = parse("5:15 AM", timeFormat, new Date()), i = 0;
-  i < 12;
-  startTime = addMinutes(startTime, 15), i++
-) {
-  startTimes.push(startTime);
-}
+// Compute startTimes once at module level to avoid recalculation on every render
+const startTimes: Date[] = (() => {
+  const times: Date[] = [];
+  for (
+    let startTime = parse("5:15 AM", timeFormat, new Date()), i = 0;
+    i < 12;
+    startTime = addMinutes(startTime, 15), i++
+  ) {
+    times.push(startTime);
+  }
+  return times;
+})();
 
 function useTimeParam() {
   const router = useRouter();
@@ -33,8 +37,9 @@ function useTimeParam() {
 }
 
 function Page() {
-  const [sinceTime, setRawSinceTime] = useState<string | undefined>(undefined);
   const [startQuery, setStartQuery] = useTimeParam();
+  const [sinceTime, setRawSinceTime] = useState<string | undefined>(() => startQuery);
+  
   const { isPast, hoursSince, hoursMinutesSince, relativeWord } =
     useHoursSince(sinceTime);
 
@@ -51,21 +56,17 @@ function Page() {
     setStartQuery(newVal);
   }
 
-  if (startQuery === undefined) {
-    // leave it
-  } else if (!sinceTime) {
-    setRawSinceTime(startQuery);
-  }
-
   const messagePrefix = `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}`;
 
-  const theDate = parse(sinceTime ?? "", timeFormat, new Date());
-  const asValue =
-    isDate(theDate) &&
-    isValid(theDate) &&
-    format(theDate, timeFormat) === sinceTime
+  // Memoize parsed date to avoid redundant parsing on every render
+  const asValue = useMemo(() => {
+    const theDate = parse(sinceTime ?? "", timeFormat, new Date());
+    return isDate(theDate) &&
+      isValid(theDate) &&
+      format(theDate, timeFormat) === sinceTime
       ? theDate
       : sinceTime;
+  }, [sinceTime]);
 
   return (
     <div className="App">

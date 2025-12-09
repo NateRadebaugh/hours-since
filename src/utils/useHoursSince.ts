@@ -2,7 +2,7 @@ import * as React from "react";
 import { differenceInMinutes, parse, format, isDate, isValid } from "date-fns";
 import useInterval from "./useInterval";
 
-const { useState, useCallback, useEffect } = React;
+const { useState, useCallback, useEffect, useMemo } = React;
 
 const dayFormat = "MM/dd/yyyy";
 export const timeFormat = "h:mm a";
@@ -20,6 +20,11 @@ function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
   const [hoursMinutesSince, setHoursMinutesSince] = useState<
     string | undefined
   >(undefined);
+
+  // Memoize parsed date to avoid re-parsing on every interval tick
+  const startDateTime = useMemo(() => {
+    return sinceTime ? parse(sinceTime, timeFormat, new Date()) : undefined;
+  }, [sinceTime]);
 
   const update = useCallback(
     (startDateTime: Date | undefined) => {
@@ -61,11 +66,11 @@ function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
   );
 
   useEffect(() => {
-    update(sinceTime ? parse(sinceTime, timeFormat, new Date()) : undefined);
-  }, [sinceTime, update]);
+    update(startDateTime);
+  }, [startDateTime, update]);
 
   useInterval(() => {
-    update(sinceTime ? parse(sinceTime, timeFormat, new Date()) : undefined);
+    update(startDateTime);
   }, 10_000);
 
   const relativeWord =
