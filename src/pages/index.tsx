@@ -4,6 +4,7 @@ import Router, { useRouter } from "next/router";
 import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import clsx from "clsx";
 import QuickSet from "../components/QuickSet";
+import TimeRangeSliders from "../components/TimeRangeSliders";
 
 import useHoursSince, { timeFormat } from "../utils/useHoursSince";
 import type { TimeRange } from "../types/TimeRange";
@@ -76,6 +77,25 @@ function Page() {
     }
   }
 
+  function handleReset() {
+    setRawSinceTime(undefined);
+    setTimeRanges([]);
+  }
+
+  function handleRangeChange(index: number, field: "start" | "stop", value: string) {
+    const updatedRanges = [...timeRanges];
+    if (field === "start") {
+      updatedRanges[index].start = value;
+    } else {
+      updatedRanges[index].stop = value;
+    }
+    setTimeRanges(updatedRanges);
+    // Update sinceTime if it's the first range's start
+    if (index === 0 && field === "start") {
+      setRawSinceTime(value);
+    }
+  }
+
   // Initialize sinceTime from ranges
   if (timeRanges.length > 0 && !sinceTime) {
     setRawSinceTime(timeRanges[0].start);
@@ -126,8 +146,20 @@ function Page() {
           >
             {isRunning ? "Pause" : "Resume"}
           </button>
+          <button
+            type="button"
+            className={clsx("btn", "btn-secondary")}
+            onClick={handleReset}
+            style={{ marginLeft: "0.5rem" }}
+          >
+            Reset
+          </button>
         </div>
       )}
+      <TimeRangeSliders
+        timeRanges={timeRanges}
+        onRangeChange={handleRangeChange}
+      />
       {timeRanges.length === 0 && (
         <QuickSet
           startTimes={startTimes}
