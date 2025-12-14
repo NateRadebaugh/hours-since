@@ -29,10 +29,25 @@ function calculateDuration(start: string, stop?: string): string {
   const stopDate = parse(stop, timeFormat, new Date());
   const minutes = differenceInMinutes(stopDate, startDate);
   
-  const hours = Math.floor(Math.abs(minutes) / 60);
-  const mins = Math.abs(minutes) % 60;
+  if (minutes < 0) return "Invalid range";
+  
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
   
   return `${hours}:${mins.toString().padStart(2, "0")}`;
+}
+
+function getTrackGradient(startMinutes: number, stopMinutes: number, maxMinutes: number): string {
+  const trackStartPercent = (startMinutes / maxMinutes) * 100;
+  const trackFillPercent = ((stopMinutes - startMinutes) / maxMinutes) * 100;
+  
+  return `linear-gradient(to right, 
+    #e0e0e0 0%, 
+    #e0e0e0 ${trackStartPercent}%, 
+    #4a90e2 ${trackStartPercent}%, 
+    #4a90e2 ${trackStartPercent + trackFillPercent}%, 
+    #e0e0e0 ${trackStartPercent + trackFillPercent}%, 
+    #e0e0e0 100%)`;
 }
 
 export default function TimeRangeSliders({
@@ -46,8 +61,6 @@ export default function TimeRangeSliders({
       {timeRanges.map((range, index) => {
         const startMinutes = timeToMinutes(range.start);
         const stopMinutes = range.stop ? timeToMinutes(range.stop) : MINUTES_IN_DAY;
-        const trackFillPercent = ((stopMinutes - startMinutes) / MINUTES_IN_DAY) * 100;
-        const trackStartPercent = (startMinutes / MINUTES_IN_DAY) * 100;
 
         return (
           <div key={index} className={styles.rangeRow}>
@@ -64,13 +77,7 @@ export default function TimeRangeSliders({
               <div 
                 className={styles.sliderTrack}
                 style={{
-                  background: `linear-gradient(to right, 
-                    #e0e0e0 0%, 
-                    #e0e0e0 ${trackStartPercent}%, 
-                    #4a90e2 ${trackStartPercent}%, 
-                    #4a90e2 ${trackStartPercent + trackFillPercent}%, 
-                    #e0e0e0 ${trackStartPercent + trackFillPercent}%, 
-                    #e0e0e0 100%)`
+                  background: getTrackGradient(startMinutes, stopMinutes, MINUTES_IN_DAY)
                 }}
               >
                 <input

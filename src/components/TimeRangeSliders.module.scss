@@ -38,6 +38,10 @@
   position: relative;
   margin: 2rem 0;
   padding: 1rem 0;
+  --arrow-width: 10px;
+  --arrow-height: 16px;
+  --arrow-width-touch: 12px;
+  --arrow-height-touch: 20px;
 }
 
 .sliderTrack {
@@ -68,9 +72,9 @@
     appearance: none;
     width: 0;
     height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 16px solid #4a90e2;
+    border-left: var(--arrow-width) solid transparent;
+    border-right: var(--arrow-width) solid transparent;
+    border-bottom: var(--arrow-height) solid #4a90e2;
     cursor: grab;
     transition: all 0.2s ease-in-out;
     position: relative;
@@ -91,9 +95,9 @@
     pointer-events: all;
     width: 0;
     height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 16px solid #4a90e2;
+    border-left: var(--arrow-width) solid transparent;
+    border-right: var(--arrow-width) solid transparent;
+    border-bottom: var(--arrow-height) solid #4a90e2;
     border-top: none;
     border-radius: 0;
     background: transparent;
@@ -149,15 +153,15 @@
   // Touch-friendly sizing
   @media (pointer: coarse) {
     &::-webkit-slider-thumb {
-      border-left-width: 12px;
-      border-right-width: 12px;
-      border-bottom-width: 20px;
+      border-left-width: var(--arrow-width-touch);
+      border-right-width: var(--arrow-width-touch);
+      border-bottom-width: var(--arrow-height-touch);
     }
 
     &::-moz-range-thumb {
-      border-left-width: 12px;
-      border-right-width: 12px;
-      border-bottom-width: 20px;
+      border-left-width: var(--arrow-width-touch);
+      border-right-width: var(--arrow-width-touch);
+      border-bottom-width: var(--arrow-height-touch);
     }
   }
 }
