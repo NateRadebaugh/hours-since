@@ -86,3 +86,6 @@ typings/
 
 # Storybook build output
 storybook-static
+
+# Test results
+test-results/
