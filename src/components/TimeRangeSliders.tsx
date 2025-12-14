@@ -34,20 +34,20 @@ function calculateDuration(start: string, stop?: string): string {
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
   
-  return `${hours}:${mins.toString().padStart(2, "0")}`;
+  return `${hours}h ${mins}m`;
 }
 
-function getTrackGradient(startMinutes: number, stopMinutes: number, maxMinutes: number): string {
-  const trackStartPercent = (startMinutes / maxMinutes) * 100;
-  const trackFillPercent = ((stopMinutes - startMinutes) / maxMinutes) * 100;
-  
-  return `linear-gradient(to right, 
-    #e0e0e0 0%, 
-    #e0e0e0 ${trackStartPercent}%, 
-    #4a90e2 ${trackStartPercent}%, 
-    #4a90e2 ${trackStartPercent + trackFillPercent}%, 
-    #e0e0e0 ${trackStartPercent + trackFillPercent}%, 
-    #e0e0e0 100%)`;
+// Generate hour markers for the timeline (every 2 hours)
+function getHourMarkers(): { time: string; minutes: number }[] {
+  const markers = [];
+  for (let hour = 0; hour < 24; hour += 2) {
+    const minutes = hour * 60;
+    markers.push({
+      time: minutesToTime(minutes),
+      minutes: minutes
+    });
+  }
+  return markers;
 }
 
 export default function TimeRangeSliders({
@@ -56,11 +56,15 @@ export default function TimeRangeSliders({
 }: TimeRangeSlidersProps) {
   if (timeRanges.length === 0) return null;
 
+  const hourMarkers = getHourMarkers();
+
   return (
     <div className={styles.container}>
       {timeRanges.map((range, index) => {
         const startMinutes = timeToMinutes(range.start);
         const stopMinutes = range.stop ? timeToMinutes(range.stop) : MINUTES_IN_DAY;
+        const startPercent = (startMinutes / MINUTES_IN_DAY) * 100;
+        const stopPercent = (stopMinutes / MINUTES_IN_DAY) * 100;
 
         return (
           <div key={index} className={styles.rangeRow}>
@@ -69,17 +73,73 @@ export default function TimeRangeSliders({
                 Range {index + 1}
               </div>
               <div className={styles.subtotal}>
-                Duration: {calculateDuration(range.start, range.stop)}
+                {calculateDuration(range.start, range.stop)}
               </div>
             </div>
             
-            <div className={styles.sliderContainer}>
-              <div 
-                className={styles.sliderTrack}
-                style={{
-                  background: getTrackGradient(startMinutes, stopMinutes, MINUTES_IN_DAY)
-                }}
-              >
+            <div className={styles.timelineContainer}>
+              {/* Time labels and input fields at top */}
+              <div className={styles.timeLabelsTop}>
+                <div className={styles.timeInputGroup}>
+                  <span className={styles.timeLabel}>{range.start}</span>
+                  <DateTime
+                    dateFormat={false}
+                    timeFormat={timeFormat}
+                    value={parse(range.start, timeFormat, new Date())}
+                    onChange={(newValue) => {
+                      if (typeof newValue === "string") {
+                        onRangeChange(index, "start", newValue);
+                      } else if (newValue instanceof Date) {
+                        onRangeChange(index, "start", format(newValue, timeFormat));
+                      }
+                    }}
+                  />
+                </div>
+                {range.stop && (
+                  <div className={styles.timeInputGroup}>
+                    <span className={styles.timeLabel}>{range.stop}</span>
+                    <DateTime
+                      dateFormat={false}
+                      timeFormat={timeFormat}
+                      value={parse(range.stop, timeFormat, new Date())}
+                      onChange={(newValue) => {
+                        if (typeof newValue === "string") {
+                          onRangeChange(index, "stop", newValue);
+                        } else if (newValue instanceof Date) {
+                          onRangeChange(index, "stop", format(newValue, timeFormat));
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Timeline track with markers */}
+              <div className={styles.timelineTrack}>
+                {/* Hour markers (ticks) */}
+                {hourMarkers.map((marker) => (
+                  <div
+                    key={marker.time}
+                    className={styles.hourMarker}
+                    style={{ left: `${(marker.minutes / MINUTES_IN_DAY) * 100}%` }}
+                  >
+                    <div className={styles.tickMark}></div>
+                  </div>
+                ))}
+
+                {/* Base track line */}
+                <div className={styles.trackLine}></div>
+
+                {/* Highlighted range section */}
+                <div
+                  className={styles.rangeHighlight}
+                  style={{
+                    left: `${startPercent}%`,
+                    width: `${stopPercent - startPercent}%`
+                  }}
+                ></div>
+
+                {/* Slider thumbs */}
                 <input
                   type="range"
                   min={0}
@@ -90,7 +150,7 @@ export default function TimeRangeSliders({
                     const newTime = minutesToTime(parseInt(e.target.value, 10));
                     onRangeChange(index, "start", newTime);
                   }}
-                  className={styles.sliderThumb}
+                  className={styles.sliderInput}
                   data-position="start"
                 />
                 {range.stop && (
@@ -104,46 +164,24 @@ export default function TimeRangeSliders({
                       const newTime = minutesToTime(parseInt(e.target.value, 10));
                       onRangeChange(index, "stop", newTime);
                     }}
-                    className={styles.sliderThumb}
+                    className={styles.sliderInput}
                     data-position="stop"
                   />
                 )}
               </div>
-            </div>
 
-            <div className={styles.timeInputs}>
-              <div className={styles.timeInputGroup}>
-                <label>Start</label>
-                <DateTime
-                  dateFormat={false}
-                  timeFormat={timeFormat}
-                  value={parse(range.start, timeFormat, new Date())}
-                  onChange={(newValue) => {
-                    if (typeof newValue === "string") {
-                      onRangeChange(index, "start", newValue);
-                    } else if (newValue instanceof Date) {
-                      onRangeChange(index, "start", format(newValue, timeFormat));
-                    }
-                  }}
-                />
+              {/* Hour labels at bottom */}
+              <div className={styles.timeLabelsBottom}>
+                {hourMarkers.map((marker) => (
+                  <div
+                    key={marker.time}
+                    className={styles.hourLabel}
+                    style={{ left: `${(marker.minutes / MINUTES_IN_DAY) * 100}%` }}
+                  >
+                    {marker.time}
+                  </div>
+                ))}
               </div>
-              {range.stop && (
-                <div className={styles.timeInputGroup}>
-                  <label>Stop</label>
-                  <DateTime
-                    dateFormat={false}
-                    timeFormat={timeFormat}
-                    value={parse(range.stop, timeFormat, new Date())}
-                    onChange={(newValue) => {
-                      if (typeof newValue === "string") {
-                        onRangeChange(index, "stop", newValue);
-                      } else if (newValue instanceof Date) {
-                        onRangeChange(index, "stop", format(newValue, timeFormat));
-                      }
-                    }}
-                  />
-                </div>
-              )}
             </div>
           </div>
         );
