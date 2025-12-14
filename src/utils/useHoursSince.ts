@@ -1,6 +1,7 @@
 import * as React from "react";
 import { differenceInMinutes, parse, format, isDate, isValid } from "date-fns";
 import useInterval from "./useInterval";
+import type { TimeRange } from "../types/TimeRange";
 
 const { useState, useCallback, useEffect } = React;
 
@@ -12,11 +13,6 @@ export interface HoursSinceDetails {
   hoursSince: string | undefined;
   hoursMinutesSince: string | undefined;
   relativeWord: string | undefined;
-}
-
-export interface TimeRange {
-  start: string;
-  stop?: string;
 }
 
 function useHoursSince(timeRanges: TimeRange[]): HoursSinceDetails {

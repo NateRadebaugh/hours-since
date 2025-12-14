@@ -6,6 +6,7 @@ import clsx from "clsx";
 import QuickSet from "../components/QuickSet";
 
 import useHoursSince, { timeFormat } from "../utils/useHoursSince";
+import type { TimeRange } from "../types/TimeRange";
 
 const startTimes: Date[] = [];
 for (
@@ -14,11 +15,6 @@ for (
   startTime = addMinutes(startTime, 15), i++
 ) {
   startTimes.push(startTime);
-}
-
-export interface TimeRange {
-  start: string;
-  stop?: string;
 }
 
 function useTimeRangesParam() {
