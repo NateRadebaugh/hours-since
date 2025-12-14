@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from "react";
 import { format, parse, addMinutes, startOfDay } from "date-fns";
 import { timeFormat } from "../utils/useHoursSince";
 import type { TimeRange } from "../types/TimeRange";
 import styles from "./TimeRangeSliders.module.scss";
+
+const MINUTES_IN_DAY = 1439; // 23:59 (0-indexed)
 
 interface TimeRangeSlidersProps {
   timeRanges: TimeRange[];
@@ -39,7 +40,7 @@ export default function TimeRangeSliders({
               <input
                 type="range"
                 min={0}
-                max={1439}
+                max={MINUTES_IN_DAY}
                 step={15}
                 value={timeToMinutes(range.start)}
                 onChange={(e) => {
@@ -56,7 +57,7 @@ export default function TimeRangeSliders({
                 <input
                   type="range"
                   min={0}
-                  max={1439}
+                  max={MINUTES_IN_DAY}
                   step={15}
                   value={timeToMinutes(range.stop)}
                   onChange={(e) => {

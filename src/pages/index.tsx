@@ -83,6 +83,9 @@ function Page() {
   }
 
   function handleRangeChange(index: number, field: "start" | "stop", value: string) {
+    if (index < 0 || index >= timeRanges.length) {
+      return; // Bounds check
+    }
     const updatedRanges = [...timeRanges];
     if (field === "start") {
       updatedRanges[index].start = value;
