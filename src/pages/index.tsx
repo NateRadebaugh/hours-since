@@ -2,6 +2,7 @@ import DateTime from "@nateradebaugh/react-datetime";
 import { format, isDate, isValid, parse, addMinutes } from "date-fns";
 import Router, { useRouter } from "next/router";
 import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
+import clsx from "clsx";
 import QuickSet from "../components/QuickSet";
 
 import useHoursSince, { timeFormat } from "../utils/useHoursSince";
@@ -15,28 +16,39 @@ for (
   startTimes.push(startTime);
 }
 
-function useTimeParam() {
+export interface TimeRange {
+  start: string;
+  stop?: string;
+}
+
+function useTimeRangesParam() {
   const router = useRouter();
-  const time = router.query.start as unknown as string;
+  const rangesQuery = router.query.ranges as unknown as string | undefined;
 
-  const setVal = useCallback(
-    (newVal: string) => {
-      Router.push({
-        pathname: "/",
-        query: { start: newVal },
-      });
-    },
-    [],
-  );
+  const ranges: TimeRange[] = rangesQuery
+    ? JSON.parse(decodeURIComponent(rangesQuery))
+    : [];
 
-  return [time, setVal] as const;
+  const setVal = useCallback((newRanges: TimeRange[]) => {
+    Router.push({
+      pathname: "/",
+      query:
+        newRanges.length > 0
+          ? { ranges: encodeURIComponent(JSON.stringify(newRanges)) }
+          : {},
+    });
+  }, []);
+
+  return [ranges, setVal] as const;
 }
 
 function Page() {
   const [sinceTime, setRawSinceTime] = useState<string | undefined>(undefined);
-  const [startQuery, setStartQuery] = useTimeParam();
+  const [timeRanges, setTimeRanges] = useTimeRangesParam();
   const { isPast, hoursSince, hoursMinutesSince, relativeWord } =
-    useHoursSince(sinceTime);
+    useHoursSince(timeRanges);
+
+  const isRunning = timeRanges.length > 0 && !timeRanges[timeRanges.length - 1].stop;
 
   const title =
     isPast === undefined
@@ -48,13 +60,31 @@ function Page() {
 
   function setSinceTime(newVal: string) {
     setRawSinceTime(newVal);
-    setStartQuery(newVal);
+    // Add new time range with start time
+    setTimeRanges([...timeRanges, { start: newVal }]);
   }
 
-  if (startQuery === undefined) {
-    // leave it
-  } else if (!sinceTime) {
-    setRawSinceTime(startQuery);
+  function handlePauseResume() {
+    if (isRunning) {
+      // Pause: add stop time to current range
+      const now = new Date();
+      const stopTime = format(now, timeFormat);
+      const updatedRanges = [...timeRanges];
+      updatedRanges[updatedRanges.length - 1].stop = stopTime;
+      setTimeRanges(updatedRanges);
+    } else {
+      // Resume: add new range with start time
+      const now = new Date();
+      const startTime = format(now, timeFormat);
+      setTimeRanges([...timeRanges, { start: startTime }]);
+    }
+  }
+
+  // Initialize sinceTime from ranges
+  if (timeRanges.length > 0 && !sinceTime) {
+    setRawSinceTime(timeRanges[0].start);
+  } else if (timeRanges.length === 0 && sinceTime) {
+    setRawSinceTime(undefined);
   }
 
   const messagePrefix = `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}`;
@@ -77,7 +107,8 @@ function Page() {
           timeFormat={timeFormat}
           onChange={(newValue) => {
             if (!newValue) {
-              setSinceTime("");
+              setRawSinceTime("");
+              setTimeRanges([]);
             } else if (typeof newValue === "number") {
               throw new Error("Not supported");
             } else if (typeof newValue === "string") {
@@ -90,11 +121,24 @@ function Page() {
           value={asValue}
         />
       </h1>
-      <QuickSet
-        startTimes={startTimes}
-        sinceTime={sinceTime}
-        setSinceTime={setSinceTime}
-      />
+      {timeRanges.length > 0 && (
+        <div>
+          <button
+            type="button"
+            className={clsx("btn", isRunning ? "btn-primary" : "btn-secondary")}
+            onClick={handlePauseResume}
+          >
+            {isRunning ? "Pause" : "Resume"}
+          </button>
+        </div>
+      )}
+      {timeRanges.length === 0 && (
+        <QuickSet
+          startTimes={startTimes}
+          sinceTime={sinceTime}
+          setSinceTime={setSinceTime}
+        />
+      )}
     </div>
   );
 }

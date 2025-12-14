@@ -14,58 +14,100 @@ export interface HoursSinceDetails {
   relativeWord: string | undefined;
 }
 
-function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
+export interface TimeRange {
+  start: string;
+  stop?: string;
+}
+
+function useHoursSince(timeRanges: TimeRange[]): HoursSinceDetails {
   const [isPast, setIsPast] = useState<boolean | undefined>(undefined);
   const [hoursSince, setHoursSince] = useState<string | undefined>(undefined);
   const [hoursMinutesSince, setHoursMinutesSince] = useState<
     string | undefined
   >(undefined);
 
-  const update = useCallback(
-    (startDateTime: Date | undefined) => {
-      const nowTime = new Date();
+  const update = useCallback(() => {
+    const nowTime = new Date();
 
-      if (!startDateTime || !isDate(startDateTime) || !isValid(startDateTime)) {
-        startDateTime = parse(
-          `${format(nowTime, `${dayFormat}`)} ${sinceTime}`,
+    if (!timeRanges || timeRanges.length === 0) {
+      setIsPast(undefined);
+      setHoursSince(undefined);
+      setHoursMinutesSince(undefined);
+      return;
+    }
+
+    let totalMinutes = 0;
+    let hasInvalidRange = false;
+
+    for (const range of timeRanges) {
+      const startDateTime = parse(
+        `${format(nowTime, dayFormat)} ${range.start}`,
+        `${dayFormat} ${timeFormat}`,
+        new Date(),
+      );
+
+      if (!isDate(startDateTime) || !isValid(startDateTime)) {
+        hasInvalidRange = true;
+        break;
+      }
+
+      let endDateTime: Date;
+      if (range.stop) {
+        endDateTime = parse(
+          `${format(nowTime, dayFormat)} ${range.stop}`,
           `${dayFormat} ${timeFormat}`,
           new Date(),
         );
+        if (!isDate(endDateTime) || !isValid(endDateTime)) {
+          hasInvalidRange = true;
+          break;
+        }
+      } else {
+        // If no stop time, use current time
+        endDateTime = nowTime;
       }
 
-      let minutesBetween = differenceInMinutes(nowTime, startDateTime);
-      setIsPast(Number.isNaN(minutesBetween) ? undefined : minutesBetween >= 0);
-      minutesBetween = Math.abs(minutesBetween);
+      const minutesBetween = differenceInMinutes(endDateTime, startDateTime);
+      totalMinutes += minutesBetween;
+    }
 
-      const fullHoursBetween = Math.floor(minutesBetween / 60);
-      const remainingMinutes = minutesBetween - fullHoursBetween * 60;
+    if (hasInvalidRange) {
+      setIsPast(undefined);
+      setHoursSince(undefined);
+      setHoursMinutesSince(undefined);
+      return;
+    }
 
-      const minutes15MinInterval =
-        remainingMinutes < 13
-          ? 0
-          : remainingMinutes < 27
-          ? 0.25
-          : remainingMinutes < 42
-          ? 0.5
-          : remainingMinutes < 56
-          ? 0.75
-          : 1;
+    setIsPast(Number.isNaN(totalMinutes) ? undefined : totalMinutes >= 0);
+    const absMinutes = Math.abs(totalMinutes);
 
-      const decimalHoursBetween = `${fullHoursBetween}:${
-        remainingMinutes < 10 ? "0" : ""
-      }${remainingMinutes}`;
-      setHoursMinutesSince(decimalHoursBetween);
-      setHoursSince(`${(fullHoursBetween + minutes15MinInterval).toFixed(2)}`);
-    },
-    [sinceTime],
-  );
+    const fullHoursBetween = Math.floor(absMinutes / 60);
+    const remainingMinutes = absMinutes - fullHoursBetween * 60;
+
+    const minutes15MinInterval =
+      remainingMinutes < 13
+        ? 0
+        : remainingMinutes < 27
+        ? 0.25
+        : remainingMinutes < 42
+        ? 0.5
+        : remainingMinutes < 56
+        ? 0.75
+        : 1;
+
+    const decimalHoursBetween = `${fullHoursBetween}:${
+      remainingMinutes < 10 ? "0" : ""
+    }${remainingMinutes}`;
+    setHoursMinutesSince(decimalHoursBetween);
+    setHoursSince(`${(fullHoursBetween + minutes15MinInterval).toFixed(2)}`);
+  }, [timeRanges]);
 
   useEffect(() => {
-    update(sinceTime ? parse(sinceTime, timeFormat, new Date()) : undefined);
-  }, [sinceTime, update]);
+    update();
+  }, [update]);
 
   useInterval(() => {
-    update(sinceTime ? parse(sinceTime, timeFormat, new Date()) : undefined);
+    update();
   }, 10_000);
 
   const relativeWord =
