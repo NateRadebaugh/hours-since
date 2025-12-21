@@ -2,7 +2,7 @@
   "name": "hours-since",
   "version": "1.0.0",
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=24.12.0"
   },
   "scripts": {
     "dev": "next dev",
@@ -28,7 +28,7 @@
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.0",
     "prettier": "^3.7.4",
-    "sass": "^1.97.0",
+    "sass": "^1.97.1",
     "sass-loader": "^16.0.6",
     "typescript": "^5.9.3"
   }
