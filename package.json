@@ -5,8 +5,8 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "oxlint --react-plugin --nextjs-plugin --deny-warnings src",
-    "lint:fix": "npm run lint -- --fix",
-    "format": "oxfmt --write ."
+    "lint:fix": "oxlint --react-plugin --nextjs-plugin --deny-warnings --fix src",
+    "format": "oxfmt ."
   },
   "dependencies": {
     "@nateradebaugh/react-datetime": "^4.6.0",

@@ -2,8 +2,8 @@ import DateTime from "@nateradebaugh/react-datetime";
 import { format, isDate, isValid, parse, addMinutes } from "date-fns";
 import Router, { useRouter } from "next/router";
 import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
-import QuickSet from "../components/QuickSet";
 
+import QuickSet from "../components/QuickSet";
 import useHoursSince, { timeFormat } from "../utils/useHoursSince";
 
 const startTimes: Date[] = [];

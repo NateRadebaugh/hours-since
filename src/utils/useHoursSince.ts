@@ -1,5 +1,6 @@
-import * as React from "react";
 import { differenceInMinutes, parse, format, isDate, isValid } from "date-fns";
+import * as React from "react";
+
 import useInterval from "./useInterval";
 
 const { useState, useCallback, useEffect } = React;
