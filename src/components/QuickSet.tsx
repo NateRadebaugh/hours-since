@@ -10,11 +10,7 @@ interface QuickSetProps {
   setSinceTime: (newVal: string) => void;
 }
 
-export default function QuickSet({
-  startTimes,
-  sinceTime,
-  setSinceTime,
-}: QuickSetProps) {
+export default function QuickSet({ startTimes, sinceTime, setSinceTime }: QuickSetProps) {
   return (
     <div className={clsx(styles.wrapper, !sinceTime && styles.empty)}>
       {startTimes.map((startTime) => {
@@ -25,10 +21,7 @@ export default function QuickSet({
           <span key={formatted}>
             <button
               type="button"
-              className={clsx([
-                "btn",
-                isSelected ? "btn-primary" : "btn-secondary",
-              ])}
+              className={clsx(["btn", isSelected ? "btn-primary" : "btn-secondary"])}
               disabled={isSelected}
               onClick={() => setSinceTime(formatted)}
             >

@@ -1,15 +1,12 @@
 {
   "name": "hours-since",
   "version": "1.0.0",
-  "engines": {
-    "node": ">=24.12.0"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "eslint src --ext .js,.ts,.jsx,.tsx --cache",
-    "lint:fix": "npm run lint --fix",
-    "format": "prettier --write . --cache"
+    "lint": "oxlint --react-plugin --nextjs-plugin --deny-warnings src",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "oxfmt --write ."
   },
   "dependencies": {
     "@nateradebaugh/react-datetime": "^4.6.0",
@@ -20,16 +17,16 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.4",
-    "@eslint/js": "^9.39.2",
     "@types/node": "^25.3.5",
     "@types/react": "^19.2.9",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^10.0.2",
-    "eslint-config-next": "^16.1.6",
-    "prettier": "^3.8.0",
+    "oxfmt": "^0.36.0",
+    "oxlint": "^1.51.0",
     "sass": "^1.97.3",
     "sass-loader": "^16.0.7",
     "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=24.12.0"
   }
 }

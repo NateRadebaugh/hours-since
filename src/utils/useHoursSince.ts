@@ -17,9 +17,7 @@ export interface HoursSinceDetails {
 function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
   const [isPast, setIsPast] = useState<boolean | undefined>(undefined);
   const [hoursSince, setHoursSince] = useState<string | undefined>(undefined);
-  const [hoursMinutesSince, setHoursMinutesSince] = useState<
-    string | undefined
-  >(undefined);
+  const [hoursMinutesSince, setHoursMinutesSince] = useState<string | undefined>(undefined);
 
   const update = useCallback(
     (startDateTime: Date | undefined) => {
@@ -44,12 +42,12 @@ function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
         remainingMinutes < 13
           ? 0
           : remainingMinutes < 27
-          ? 0.25
-          : remainingMinutes < 42
-          ? 0.5
-          : remainingMinutes < 56
-          ? 0.75
-          : 1;
+            ? 0.25
+            : remainingMinutes < 42
+              ? 0.5
+              : remainingMinutes < 56
+                ? 0.75
+                : 1;
 
       const decimalHoursBetween = `${fullHoursBetween}:${
         remainingMinutes < 10 ? "0" : ""
@@ -68,8 +66,7 @@ function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
     update(sinceTime ? parse(sinceTime, timeFormat, new Date()) : undefined);
   }, 10_000);
 
-  const relativeWord =
-    isPast === true ? "after" : isPast === false ? "before" : undefined;
+  const relativeWord = isPast === true ? "after" : isPast === false ? "before" : undefined;
 
   return { isPast, hoursSince, hoursMinutesSince, relativeWord };
 }

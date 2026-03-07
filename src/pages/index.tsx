@@ -19,15 +19,12 @@ function useTimeParam() {
   const router = useRouter();
   const time = router.query.start as unknown as string;
 
-  const setVal = useCallback(
-    (newVal: string) => {
-      Router.push({
-        pathname: "/",
-        query: { start: newVal },
-      });
-    },
-    [],
-  );
+  const setVal = useCallback((newVal: string) => {
+    Router.push({
+      pathname: "/",
+      query: { start: newVal },
+    });
+  }, []);
 
   return [time, setVal] as const;
 }
@@ -35,8 +32,7 @@ function useTimeParam() {
 function Page() {
   const [sinceTime, setRawSinceTime] = useState<string | undefined>(undefined);
   const [startQuery, setStartQuery] = useTimeParam();
-  const { isPast, hoursSince, hoursMinutesSince, relativeWord } =
-    useHoursSince(sinceTime);
+  const { isPast, hoursSince, hoursMinutesSince, relativeWord } = useHoursSince(sinceTime);
 
   const title =
     isPast === undefined
@@ -61,9 +57,7 @@ function Page() {
 
   const theDate = parse(sinceTime ?? "", timeFormat, new Date());
   const asValue =
-    isDate(theDate) &&
-    isValid(theDate) &&
-    format(theDate, timeFormat) === sinceTime
+    isDate(theDate) && isValid(theDate) && format(theDate, timeFormat) === sinceTime
       ? theDate
       : sinceTime;
 
@@ -90,11 +84,7 @@ function Page() {
           value={asValue}
         />
       </h1>
-      <QuickSet
-        startTimes={startTimes}
-        sinceTime={sinceTime}
-        setSinceTime={setSinceTime}
-      />
+      <QuickSet startTimes={startTimes} sinceTime={sinceTime} setSinceTime={setSinceTime} />
     </div>
   );
 }
@@ -106,7 +96,7 @@ function useIsClient() {
   return useSyncExternalStore(
     subscribeToNothing,
     () => true,
-    () => false
+    () => false,
   );
 }
 
