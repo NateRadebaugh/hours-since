@@ -1,3 +1,6 @@
 {
-  "sortImports": {}
+  "sortImports": {},
+  "sortPackageJson": {
+    "sortScripts": true
+  }
 }

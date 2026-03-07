@@ -20,7 +20,7 @@ function useTimeParam() {
   const time = router.query.start as unknown as string;
 
   const setVal = useCallback((newVal: string) => {
-    Router.push({
+    void Router.push({
       pathname: "/",
       query: { start: newVal },
     });
