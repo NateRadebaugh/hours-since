@@ -44,12 +44,12 @@ function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
         remainingMinutes < 13
           ? 0
           : remainingMinutes < 27
-          ? 0.25
-          : remainingMinutes < 42
-          ? 0.5
-          : remainingMinutes < 56
-          ? 0.75
-          : 1;
+            ? 0.25
+            : remainingMinutes < 42
+              ? 0.5
+              : remainingMinutes < 56
+                ? 0.75
+                : 1;
 
       const decimalHoursBetween = `${fullHoursBetween}:${
         remainingMinutes < 10 ? "0" : ""

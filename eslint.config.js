@@ -1,5 +1,3 @@
 const nextConfig = require("eslint-config-next");
 
-module.exports = [
-    ...nextConfig,
-];
+module.exports = [...nextConfig];
