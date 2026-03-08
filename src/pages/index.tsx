@@ -19,15 +19,12 @@ function useTimeParam() {
   const router = useRouter();
   const time = router.query.start as unknown as string;
 
-  const setVal = useCallback(
-    (newVal: string) => {
-      Router.push({
-        pathname: "/",
-        query: { start: newVal },
-      });
-    },
-    [],
-  );
+  const setVal = useCallback((newVal: string) => {
+    Router.push({
+      pathname: "/",
+      query: { start: newVal },
+    });
+  }, []);
 
   return [time, setVal] as const;
 }
@@ -106,7 +103,7 @@ function useIsClient() {
   return useSyncExternalStore(
     subscribeToNothing,
     () => true,
-    () => false
+    () => false,
   );
 }
 
