@@ -7,18 +7,19 @@ interface SunTimes {
   sunset: Date;
 }
 
+// Glen Ellyn, Illinois
+const LATITUDE = 41.8775;
+const LONGITUDE = -88.0673;
+
 function isDaytime(sunrise: Date, sunset: Date): boolean {
   const now = new Date();
   return now >= sunrise && now < sunset;
 }
 
-async function fetchSunTimes(
-  lat: number,
-  lng: number,
-): Promise<SunTimes | null> {
+async function fetchSunTimes(): Promise<SunTimes | null> {
   try {
     const res = await fetch(
-      `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&formatted=0`,
+      `https://api.sunrise-sunset.org/json?lat=${LATITUDE}&lng=${LONGITUDE}&formatted=0`,
     );
     const data = await res.json();
     if (data.status === "OK") {
@@ -33,18 +34,9 @@ async function fetchSunTimes(
   }
 }
 
-function getPosition(): Promise<GeolocationPosition> {
-  return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject, {
-      timeout: 10000,
-    });
-  });
-}
-
 export default function useSunBasedTheme(): SunTheme | null {
   const [sunTheme, setSunTheme] = useState<SunTheme | null>(null);
   const sunTimesRef = useRef<SunTimes | null>(null);
-  const coordsRef = useRef<{ lat: number; lng: number } | null>(null);
   const fetchedDateRef = useRef<string | null>(null);
 
   useEffect(() => {
@@ -52,9 +44,7 @@ export default function useSunBasedTheme(): SunTheme | null {
     let intervalId: ReturnType<typeof setInterval> | null = null;
 
     async function fetchAndApply() {
-      if (!coordsRef.current) return;
-      const { lat, lng } = coordsRef.current;
-      const times = await fetchSunTimes(lat, lng);
+      const times = await fetchSunTimes();
       if (!cancelled && times) {
         sunTimesRef.current = times;
         fetchedDateRef.current = new Date().toDateString();
@@ -63,14 +53,9 @@ export default function useSunBasedTheme(): SunTheme | null {
     }
 
     async function init() {
-      if (typeof window === "undefined" || !navigator.geolocation) return;
+      if (typeof window === "undefined") return;
 
       try {
-        const position = await getPosition();
-        coordsRef.current = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
         await fetchAndApply();
 
         if (!cancelled) {
@@ -89,7 +74,7 @@ export default function useSunBasedTheme(): SunTheme | null {
           }, 60_000);
         }
       } catch {
-        // Geolocation denied or API failed — caller should fall back
+        // API failed — caller should fall back
       }
     }
 
