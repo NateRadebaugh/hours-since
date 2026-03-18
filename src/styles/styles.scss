@@ -1,5 +1,65 @@
 @import "@nateradebaugh/react-datetime/scss/styles.scss";
 
+@mixin dark-theme {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --input-color: #e0e0e0;
+  --input-bg: #1e1e1e;
+  --input-border: #444;
+  --btn-color: #e0e0e0;
+  --btn-primary-bg: #ed1a3b;
+  --btn-primary-hover-bg: #ff2e50;
+  --btn-secondary-bg: #555;
+  --btn-secondary-hover-bg: #666;
+  --focus-shadow: #3a7bd5;
+  --picker-bg: #1e1e1e;
+  --picker-border: rgba(255, 255, 255, 0.15);
+  --picker-color: #e0e0e0;
+  --picker-hover-bg: #2a2a2a;
+  --picker-hover-color: #fff;
+  --picker-divider: #333;
+  --picker-disabled-color: #666;
+}
+
+:root {
+  --bg-color: #fff;
+  --text-color: #212529;
+  --input-color: #495057;
+  --input-bg: #fff;
+  --input-border: #ced4da;
+  --btn-color: #212529;
+  --btn-primary-bg: #ed1a3b;
+  --btn-primary-hover-bg: #ab0f28;
+  --btn-secondary-bg: #333;
+  --btn-secondary-hover-bg: #212121;
+  --focus-shadow: #8dcdff;
+  --picker-bg: #fff;
+  --picker-border: rgba(0, 0, 0, 0.15);
+  --picker-color: #212529;
+  --picker-hover-bg: #f8f9fa;
+  --picker-hover-color: #1a1e21;
+  --picker-divider: #e9ecef;
+  --picker-disabled-color: #6c757d;
+}
+
+[data-theme="dark"] {
+  @include dark-theme;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    @include dark-theme;
+  }
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -19,10 +79,10 @@ input {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
+  color: var(--input-color);
+  background-color: var(--input-bg);
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid var(--input-border);
   transition:
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
@@ -40,7 +100,7 @@ input {
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
+  color: var(--btn-color);
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
@@ -60,7 +120,7 @@ input {
 }
 
 .btn:hover {
-  color: #212529;
+  color: var(--btn-color);
 }
 
 .btn:disabled,
@@ -72,21 +132,21 @@ fieldset:disabled .btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #ed1a3b;
+  background-color: var(--btn-primary-bg);
 
   &:hover {
     color: #fff;
-    background-color: #ab0f28;
+    background-color: var(--btn-primary-hover-bg);
   }
 }
 
 .btn-secondary {
   color: #fff;
-  background-color: #333;
+  background-color: var(--btn-secondary-bg);
 
   &:hover {
     color: #fff;
-    background-color: #212121;
+    background-color: var(--btn-secondary-hover-bg);
   }
 }
 
@@ -96,7 +156,7 @@ fieldset:disabled .btn {
 .btn-secondary:focus,
 .btn-secondary:active,
 .btn-secondary.active {
-  box-shadow: 0 0 0 0.2rem #8dcdff;
+  box-shadow: 0 0 0 0.2rem var(--focus-shadow);
 }
 
 .btn-primary:active,
@@ -104,4 +164,59 @@ fieldset:disabled .btn {
 .btn-secondary:active,
 .btn-secondary.active {
   transform: translateY(1px);
+}
+
+// Dark mode overrides for react-datetime picker
+.rdtPicker {
+  background: var(--picker-bg);
+  border-color: var(--picker-border);
+  color: var(--picker-color);
+
+  .rdtCounter .rdtBtn,
+  .rdtYear,
+  .rdtMonth,
+  .rdtDay,
+  .rdtHour,
+  .rdtMinute,
+  .rdtSecond,
+  .rdtTimeToggle {
+    color: var(--picker-color);
+
+    &:hover {
+      background: var(--picker-hover-bg);
+      color: var(--picker-hover-color);
+    }
+  }
+
+  .rdtPrev,
+  .rdtSwitch,
+  .rdtNext {
+    color: var(--picker-color);
+  }
+
+  th {
+    border-bottom-color: var(--picker-divider);
+  }
+
+  .rdtTimeToggle {
+    border-top-color: var(--picker-divider);
+  }
+
+  thead tr:first-child th:hover {
+    background: var(--picker-hover-bg);
+  }
+
+  button:hover {
+    background-color: var(--picker-hover-bg);
+  }
+
+  th.rdtDisabled,
+  th.rdtDisabled:hover {
+    color: var(--picker-disabled-color);
+  }
+
+  .rdtDisabled,
+  .rdtDisabled:hover {
+    color: var(--picker-disabled-color);
+  }
 }
