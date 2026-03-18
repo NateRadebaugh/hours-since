@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 type SunTheme = "light" | "dark";
 
@@ -44,28 +44,49 @@ function getPosition(): Promise<GeolocationPosition> {
 export default function useSunBasedTheme(): SunTheme | null {
   const [sunTheme, setSunTheme] = useState<SunTheme | null>(null);
   const sunTimesRef = useRef<SunTimes | null>(null);
-
-  const updateTheme = useCallback(() => {
-    if (sunTimesRef.current) {
-      const { sunrise, sunset } = sunTimesRef.current;
-      setSunTheme(isDaytime(sunrise, sunset) ? "light" : "dark");
-    }
-  }, []);
+  const coordsRef = useRef<{ lat: number; lng: number } | null>(null);
+  const fetchedDateRef = useRef<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+
+    async function fetchAndApply() {
+      if (!coordsRef.current) return;
+      const { lat, lng } = coordsRef.current;
+      const times = await fetchSunTimes(lat, lng);
+      if (!cancelled && times) {
+        sunTimesRef.current = times;
+        fetchedDateRef.current = new Date().toDateString();
+        setSunTheme(isDaytime(times.sunrise, times.sunset) ? "light" : "dark");
+      }
+    }
 
     async function init() {
       if (typeof window === "undefined" || !navigator.geolocation) return;
 
       try {
         const position = await getPosition();
-        const { latitude, longitude } = position.coords;
-        const times = await fetchSunTimes(latitude, longitude);
-        if (!cancelled && times) {
-          sunTimesRef.current = times;
-          const { sunrise, sunset } = times;
-          setSunTheme(isDaytime(sunrise, sunset) ? "light" : "dark");
+        coordsRef.current = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        await fetchAndApply();
+
+        if (!cancelled) {
+          // Re-check every 60 seconds to catch sunrise/sunset transitions
+          // and refetch sun times when the day changes (past midnight)
+          intervalId = setInterval(() => {
+            const today = new Date().toDateString();
+            if (fetchedDateRef.current !== today) {
+              void fetchAndApply();
+            } else if (sunTimesRef.current) {
+              const { sunrise, sunset } = sunTimesRef.current;
+              setSunTheme(
+                isDaytime(sunrise, sunset) ? "light" : "dark",
+              );
+            }
+          }, 60_000);
         }
       } catch {
         // Geolocation denied or API failed — caller should fall back
@@ -74,16 +95,11 @@ export default function useSunBasedTheme(): SunTheme | null {
 
     void init();
 
-    // Re-check every 60 seconds to catch sunrise/sunset transitions
-    const id = setInterval(() => {
-      updateTheme();
-    }, 60_000);
-
     return () => {
       cancelled = true;
-      clearInterval(id);
+      if (intervalId) clearInterval(intervalId);
     };
-  }, [updateTheme]);
+  }, []);
 
   return sunTheme;
 }
