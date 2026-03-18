@@ -1,5 +1,26 @@
 @import "@nateradebaugh/react-datetime/scss/styles.scss";
 
+@mixin dark-theme {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --input-color: #e0e0e0;
+  --input-bg: #1e1e1e;
+  --input-border: #444;
+  --btn-color: #e0e0e0;
+  --btn-primary-bg: #ed1a3b;
+  --btn-primary-hover-bg: #ff2e50;
+  --btn-secondary-bg: #555;
+  --btn-secondary-hover-bg: #666;
+  --focus-shadow: #3a7bd5;
+  --picker-bg: #1e1e1e;
+  --picker-border: rgba(255, 255, 255, 0.15);
+  --picker-color: #e0e0e0;
+  --picker-hover-bg: #2a2a2a;
+  --picker-hover-color: #fff;
+  --picker-divider: #333;
+  --picker-disabled-color: #666;
+}
+
 :root {
   --bg-color: #fff;
   --text-color: #212529;
@@ -22,46 +43,12 @@
 }
 
 [data-theme="dark"] {
-  --bg-color: #121212;
-  --text-color: #e0e0e0;
-  --input-color: #e0e0e0;
-  --input-bg: #1e1e1e;
-  --input-border: #444;
-  --btn-color: #e0e0e0;
-  --btn-primary-bg: #ed1a3b;
-  --btn-primary-hover-bg: #ff2e50;
-  --btn-secondary-bg: #555;
-  --btn-secondary-hover-bg: #666;
-  --focus-shadow: #3a7bd5;
-  --picker-bg: #1e1e1e;
-  --picker-border: rgba(255, 255, 255, 0.15);
-  --picker-color: #e0e0e0;
-  --picker-hover-bg: #2a2a2a;
-  --picker-hover-color: #fff;
-  --picker-divider: #333;
-  --picker-disabled-color: #666;
+  @include dark-theme;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg-color: #121212;
-    --text-color: #e0e0e0;
-    --input-color: #e0e0e0;
-    --input-bg: #1e1e1e;
-    --input-border: #444;
-    --btn-color: #e0e0e0;
-    --btn-primary-bg: #ed1a3b;
-    --btn-primary-hover-bg: #ff2e50;
-    --btn-secondary-bg: #555;
-    --btn-secondary-hover-bg: #666;
-    --focus-shadow: #3a7bd5;
-    --picker-bg: #1e1e1e;
-    --picker-border: rgba(255, 255, 255, 0.15);
-    --picker-color: #e0e0e0;
-    --picker-hover-bg: #2a2a2a;
-    --picker-hover-color: #fff;
-    --picker-divider: #333;
-    --picker-disabled-color: #666;
+    @include dark-theme;
   }
 }
 
