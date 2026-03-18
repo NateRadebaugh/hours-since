@@ -11,9 +11,51 @@ interface SunTimes {
 const LATITUDE = 41.8775;
 const LONGITUDE = -88.0673;
 
+const CACHE_KEY = "sun-times-cache";
+
 function isDaytime(sunrise: Date, sunset: Date): boolean {
   const now = new Date();
   return now >= sunrise && now < sunset;
+}
+
+function getCachedSunTimes(): SunTimes | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    const sunrise = new Date(parsed.sunrise);
+    const sunset = new Date(parsed.sunset);
+    if (isNaN(sunrise.getTime()) || isNaN(sunset.getTime())) return null;
+    // Only use cache if it's from today
+    if (parsed.date !== new Date().toDateString()) return null;
+    return { sunrise, sunset };
+  } catch {
+    return null;
+  }
+}
+
+function cacheSunTimes(times: SunTimes): void {
+  try {
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({
+        sunrise: times.sunrise.toISOString(),
+        sunset: times.sunset.toISOString(),
+        date: new Date().toDateString(),
+      }),
+    );
+  } catch {
+    // localStorage may be full or unavailable
+  }
+}
+
+function getInitialTheme(): SunTheme | null {
+  const cached = getCachedSunTimes();
+  if (cached) {
+    return isDaytime(cached.sunrise, cached.sunset) ? "light" : "dark";
+  }
+  return null;
 }
 
 async function fetchSunTimes(): Promise<SunTimes | null> {
@@ -35,9 +77,11 @@ async function fetchSunTimes(): Promise<SunTimes | null> {
 }
 
 export default function useSunBasedTheme(): SunTheme | null {
-  const [sunTheme, setSunTheme] = useState<SunTheme | null>(null);
-  const sunTimesRef = useRef<SunTimes | null>(null);
-  const fetchedDateRef = useRef<string | null>(null);
+  const [sunTheme, setSunTheme] = useState<SunTheme | null>(getInitialTheme);
+  const sunTimesRef = useRef<SunTimes | null>(getCachedSunTimes());
+  const fetchedDateRef = useRef<string | null>(
+    sunTimesRef.current ? new Date().toDateString() : null,
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -48,6 +92,7 @@ export default function useSunBasedTheme(): SunTheme | null {
       if (!cancelled && times) {
         sunTimesRef.current = times;
         fetchedDateRef.current = new Date().toDateString();
+        cacheSunTimes(times);
         setSunTheme(isDaytime(times.sunrise, times.sunset) ? "light" : "dark");
       }
     }
