@@ -54,7 +54,10 @@ function Page() {
     setRawSinceTime(startQuery);
   }
 
-  const messagePrefix = `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}`;
+  const messagePrefix =
+    typeof isPast === "boolean"
+      ? `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}`
+      : "";
 
   const theDate = parse(sinceTime ?? "", timeFormat, new Date());
   const asValue =
