@@ -24,7 +24,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "oxlint": "^1.56.0",
-    "oxlint-tsgolint": "^0.17.4",
+    "oxlint-tsgolint": "^0.18.1",
     "prettier": "^3.8.1",
     "sass": "^1.98.0",
     "sass-loader": "^16.0.7",
