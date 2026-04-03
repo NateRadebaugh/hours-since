@@ -26,7 +26,7 @@
     "oxlint": "^1.58.0",
     "oxlint-tsgolint": "^0.19.0",
     "prettier": "^3.8.1",
-    "sass": "^1.98.0",
+    "sass": "^1.99.0",
     "sass-loader": "^16.0.7",
     "typescript": "^5.9.3"
   }
