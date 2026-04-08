@@ -27,12 +27,15 @@ function useTimeParam() {
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
-  const setVal = useCallback((newVal: string) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("start", newVal);
-    window.history.pushState({}, "", url);
-    setTime(newVal);
-  }, []);
+  const setVal = useCallback(
+    (newVal: string) => {
+      const url = new URL(window.location.href);
+      url.searchParams.set("start", newVal);
+      window.history.pushState({}, "", url);
+      setTime(newVal);
+    },
+    [setTime],
+  );
 
   return [time, setVal] as const;
 }
@@ -57,11 +60,11 @@ function App() {
     setStartQuery(newVal);
   }
 
-  if (startQuery === undefined) {
-    // leave it
-  } else if (!sinceTime) {
-    setRawSinceTime(startQuery);
-  }
+  useEffect(() => {
+    if (startQuery !== undefined && !sinceTime) {
+      setRawSinceTime(startQuery);
+    }
+  }, [startQuery, sinceTime]);
 
   const messagePrefix =
     typeof isPast === "boolean" ? `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}` : "";
