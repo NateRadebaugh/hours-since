@@ -4,9 +4,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "oxlint --type-aware --react-plugin --nextjs-plugin src",
-    "lint:fix": "npm run lint -- --fix",
-    "format": "oxfmt --write ."
+    "lint": "vp lint src",
+    "lint:fix": "vp lint --fix src",
+    "format": "vp fmt --write ."
   },
   "dependencies": {
     "@nateradebaugh/react-datetime": "^4.6.0",
@@ -20,12 +20,10 @@
     "@types/node": "^25.5.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "oxfmt": "^0.44.0",
-    "oxlint": "^1.59.0",
-    "oxlint-tsgolint": "^0.20.0",
     "sass": "^1.99.0",
     "sass-loader": "^16.0.7",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "vite-plus": "^0.1.16"
   },
   "engines": {
     "node": ">=24.12.0"
