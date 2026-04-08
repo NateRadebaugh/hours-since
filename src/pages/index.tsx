@@ -33,8 +33,7 @@ function useTimeParam() {
 function Page() {
   const [sinceTime, setRawSinceTime] = useState<string | undefined>(undefined);
   const [startQuery, setStartQuery] = useTimeParam();
-  const { isPast, hoursSince, hoursMinutesSince, relativeWord } =
-    useHoursSince(sinceTime);
+  const { isPast, hoursSince, hoursMinutesSince, relativeWord } = useHoursSince(sinceTime);
 
   useFaviconBadge(hoursSince);
 
@@ -58,15 +57,11 @@ function Page() {
   }
 
   const messagePrefix =
-    typeof isPast === "boolean"
-      ? `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}`
-      : "";
+    typeof isPast === "boolean" ? `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}` : "";
 
   const theDate = parse(sinceTime ?? "", timeFormat, new Date());
   const asValue =
-    isDate(theDate) &&
-    isValid(theDate) &&
-    format(theDate, timeFormat) === sinceTime
+    isDate(theDate) && isValid(theDate) && format(theDate, timeFormat) === sinceTime
       ? theDate
       : sinceTime;
 
@@ -93,11 +88,7 @@ function Page() {
           value={asValue}
         />
       </h1>
-      <QuickSet
-        startTimes={startTimes}
-        sinceTime={sinceTime}
-        setSinceTime={setSinceTime}
-      />
+      <QuickSet startTimes={startTimes} sinceTime={sinceTime} setSinceTime={setSinceTime} />
     </div>
   );
 }
