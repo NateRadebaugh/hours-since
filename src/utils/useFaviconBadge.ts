@@ -24,6 +24,7 @@ function drawFavicon(text: string): string {
   // Scale font to fill the canvas width
   const fontSize = text.length <= 3 ? 72 : text.length <= 4 ? 58 : 46;
   ctx.font = `900 ${fontSize}px "Arial Black", "Impact", sans-serif`;
+  // +2 offset for optical vertical centering with heavyweight font
   ctx.fillText(text, CANVAS_SIZE / 2, CANVAS_SIZE / 2 + 2);
 
   return canvas.toDataURL("image/png");
