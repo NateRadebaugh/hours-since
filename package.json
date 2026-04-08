@@ -2,8 +2,9 @@
   "name": "hours-since",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "vp dev",
+    "build": "vp build",
+    "preview": "vp preview",
     "lint": "vp lint src",
     "lint:fix": "vp lint --fix src",
     "format": "vp fmt --write ."
@@ -12,7 +13,6 @@
     "@nateradebaugh/react-datetime": "^4.6.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "next": "^16.2.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
@@ -21,7 +21,6 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "sass": "^1.99.0",
-    "sass-loader": "^16.0.7",
     "typescript": "^6.0.2",
     "vite-plus": "^0.1.16"
   },
