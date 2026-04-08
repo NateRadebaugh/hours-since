@@ -75,16 +75,14 @@ function useFaviconBadge(hoursSince: string | undefined) {
     }
 
     linkRef.current.href = dataUrl;
-  }, [hoursSince]);
 
-  useEffect(() => {
     return () => {
       if (linkRef.current) {
         linkRef.current.remove();
         linkRef.current = null;
       }
     };
-  }, []);
+  }, [hoursSince]);
 }
 
 export default useFaviconBadge;
