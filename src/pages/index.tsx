@@ -4,6 +4,7 @@ import Router, { useRouter } from "next/router";
 import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import QuickSet from "../components/QuickSet";
 
+import useFaviconBadge from "../utils/useFaviconBadge";
 import useHoursSince, { timeFormat } from "../utils/useHoursSince";
 
 const startTimes: Date[] = [];
@@ -34,6 +35,8 @@ function Page() {
   const [startQuery, setStartQuery] = useTimeParam();
   const { isPast, hoursSince, hoursMinutesSince, relativeWord } =
     useHoursSince(sinceTime);
+
+  useFaviconBadge(hoursSince);
 
   const title =
     isPast === undefined
