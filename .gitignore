@@ -85,4 +85,4 @@ typings/
 .dynamodb/
 
 # Storybook build output
-storybook-static
+storybook-statictsconfig.tsbuildinfo
