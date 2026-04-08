@@ -5,6 +5,7 @@ export default defineConfig({
     options: {
       typeAware: true,
     },
+    plugins: ["react", "nextjs"],
   },
   fmt: {
     ignorePatterns: [".next", "storybook-static"],
