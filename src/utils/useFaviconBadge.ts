@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const CANVAS_SIZE = 64;
+const CANVAS_SIZE = 128;
 
 function drawFavicon(text: string): string {
   const canvas = document.createElement("canvas");
@@ -12,34 +12,19 @@ function drawFavicon(text: string): string {
     return "";
   }
 
-  // Clear canvas
-  ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+  // Fill solid dark background for maximum contrast
+  ctx.fillStyle = "#222222";
+  ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
-  // Draw rounded background
-  const radius = 8;
-  ctx.beginPath();
-  ctx.moveTo(radius, 0);
-  ctx.lineTo(CANVAS_SIZE - radius, 0);
-  ctx.quadraticCurveTo(CANVAS_SIZE, 0, CANVAS_SIZE, radius);
-  ctx.lineTo(CANVAS_SIZE, CANVAS_SIZE - radius);
-  ctx.quadraticCurveTo(CANVAS_SIZE, CANVAS_SIZE, CANVAS_SIZE - radius, CANVAS_SIZE);
-  ctx.lineTo(radius, CANVAS_SIZE);
-  ctx.quadraticCurveTo(0, CANVAS_SIZE, 0, CANVAS_SIZE - radius);
-  ctx.lineTo(0, radius);
-  ctx.quadraticCurveTo(0, 0, radius, 0);
-  ctx.closePath();
-  ctx.fillStyle = "#4a90d9";
-  ctx.fill();
-
-  // Draw text
+  // Draw text as large as possible
   ctx.fillStyle = "#ffffff";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  // Adjust font size based on text length
-  const fontSize = text.length <= 4 ? 24 : text.length <= 5 ? 20 : 16;
-  ctx.font = `bold ${fontSize}px sans-serif`;
-  ctx.fillText(text, CANVAS_SIZE / 2, CANVAS_SIZE / 2);
+  // Scale font to fill the canvas width
+  const fontSize = text.length <= 3 ? 72 : text.length <= 4 ? 58 : 46;
+  ctx.font = `900 ${fontSize}px "Arial Black", "Impact", sans-serif`;
+  ctx.fillText(text, CANVAS_SIZE / 2, CANVAS_SIZE / 2 + 2);
 
   return canvas.toDataURL("image/png");
 }
@@ -48,8 +33,8 @@ function useFaviconBadge(hoursSince: string | undefined) {
   const linkRef = useRef<HTMLLinkElement | null>(null);
 
   useEffect(() => {
-    if (!hoursSince) {
-      // Remove dynamic favicon if no value
+    if (!hoursSince || hoursSince.includes("NaN")) {
+      // Remove dynamic favicon if no valid value
       if (linkRef.current) {
         linkRef.current.remove();
         linkRef.current = null;
