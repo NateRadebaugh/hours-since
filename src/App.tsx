@@ -1,11 +1,30 @@
-import DateTime from "@nateradebaugh/react-datetime";
-import { format, isDate, isValid, parse, addMinutes } from "date-fns";
+import { format, parse, addMinutes } from "date-fns";
 import { useState, useEffect, useCallback } from "react";
 import QuickSet from "./components/QuickSet";
 import ThemeToggle from "./components/ThemeToggle";
 
 import useFaviconBadge from "./utils/useFaviconBadge";
 import useHoursSince, { timeFormat } from "./utils/useHoursSince";
+
+/**
+ * Convert display format "h:mm a" (e.g. "5:15 AM") to HTML time input value "HH:mm" (e.g. "05:15").
+ */
+function toInputValue(display: string | undefined): string {
+  if (!display) return "";
+  const d = parse(display, timeFormat, new Date());
+  if (Number.isNaN(d.getTime())) return "";
+  return format(d, "HH:mm");
+}
+
+/**
+ * Convert HTML time input value "HH:mm" (e.g. "05:15") to display format "h:mm a" (e.g. "5:15 AM").
+ */
+function fromInputValue(value: string): string {
+  if (!value) return "";
+  const d = parse(value, "HH:mm", new Date());
+  if (Number.isNaN(d.getTime())) return "";
+  return format(d, timeFormat);
+}
 
 const startTimes: Date[] = [];
 for (
@@ -69,35 +88,20 @@ function App() {
   const messagePrefix =
     typeof isPast === "boolean" ? `${hoursSince} (${hoursMinutesSince}) hours ${relativeWord}` : "";
 
-  const theDate = parse(sinceTime ?? "", timeFormat, new Date());
-  const asValue =
-    isDate(theDate) && isValid(theDate) && format(theDate, timeFormat) === sinceTime
-      ? theDate
-      : sinceTime;
-
   return (
     <>
       <ThemeToggle />
       <div className="App">
         <h1>
           {typeof isPast === "boolean" && messagePrefix}
-          <DateTime
-            aria-label={messagePrefix}
-            dateFormat={false}
-            timeFormat={timeFormat}
-            onChange={(newValue) => {
-              if (!newValue) {
-                setSinceTime("");
-              } else if (typeof newValue === "number") {
-                throw new Error("Not supported");
-              } else if (typeof newValue === "string") {
-                setSinceTime(newValue);
-              } else {
-                const asDate = newValue;
-                setSinceTime(format(asDate, timeFormat));
-              }
+          <input
+            type="time"
+            aria-label={messagePrefix || "Start time"}
+            value={toInputValue(sinceTime)}
+            onChange={(e) => {
+              const display = fromInputValue(e.target.value);
+              setSinceTime(display);
             }}
-            value={asValue}
           />
         </h1>
         <QuickSet startTimes={startTimes} sinceTime={sinceTime} setSinceTime={setSinceTime} />

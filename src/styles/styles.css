@@ -10,13 +10,6 @@
   --btn-secondary-bg: #333;
   --btn-secondary-hover-bg: #212121;
   --focus-shadow: #8dcdff;
-  --picker-bg: #fff;
-  --picker-border: rgba(0, 0, 0, 0.15);
-  --picker-color: #212529;
-  --picker-hover-bg: #f8f9fa;
-  --picker-hover-color: #1a1e21;
-  --picker-divider: #e9ecef;
-  --picker-disabled-color: #6c757d;
 }
 
 [data-theme="dark"] {
@@ -31,13 +24,6 @@
   --btn-secondary-bg: #555;
   --btn-secondary-hover-bg: #666;
   --focus-shadow: #3a7bd5;
-  --picker-bg: #1e1e1e;
-  --picker-border: rgba(255, 255, 255, 0.15);
-  --picker-color: #e0e0e0;
-  --picker-hover-bg: #2a2a2a;
-  --picker-hover-color: #fff;
-  --picker-divider: #333;
-  --picker-disabled-color: #666;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -53,13 +39,6 @@
     --btn-secondary-bg: #555;
     --btn-secondary-hover-bg: #666;
     --focus-shadow: #3a7bd5;
-    --picker-bg: #1e1e1e;
-    --picker-border: rgba(255, 255, 255, 0.15);
-    --picker-color: #e0e0e0;
-    --picker-hover-bg: #2a2a2a;
-    --picker-hover-color: #fff;
-    --picker-divider: #333;
-    --picker-disabled-color: #666;
   }
 }
 
@@ -175,66 +154,4 @@ fieldset:disabled .btn {
 .btn-secondary:active,
 .btn-secondary.active {
   transform: translateY(1px);
-}
-
-/* Dark mode overrides for react-datetime picker */
-.rdtPicker {
-  background: var(--picker-bg);
-  border-color: var(--picker-border);
-  color: var(--picker-color);
-}
-
-.rdtPicker .rdtCounter .rdtBtn,
-.rdtPicker .rdtYear,
-.rdtPicker .rdtMonth,
-.rdtPicker .rdtDay,
-.rdtPicker .rdtHour,
-.rdtPicker .rdtMinute,
-.rdtPicker .rdtSecond,
-.rdtPicker .rdtTimeToggle {
-  color: var(--picker-color);
-}
-
-.rdtPicker .rdtCounter .rdtBtn:hover,
-.rdtPicker .rdtYear:hover,
-.rdtPicker .rdtMonth:hover,
-.rdtPicker .rdtDay:hover,
-.rdtPicker .rdtHour:hover,
-.rdtPicker .rdtMinute:hover,
-.rdtPicker .rdtSecond:hover,
-.rdtPicker .rdtTimeToggle:hover {
-  background: var(--picker-hover-bg);
-  color: var(--picker-hover-color);
-}
-
-.rdtPicker .rdtPrev,
-.rdtPicker .rdtSwitch,
-.rdtPicker .rdtNext {
-  color: var(--picker-color);
-}
-
-.rdtPicker th {
-  border-bottom-color: var(--picker-divider);
-}
-
-.rdtPicker .rdtTimeToggle {
-  border-top-color: var(--picker-divider);
-}
-
-.rdtPicker thead tr:first-child th:hover {
-  background: var(--picker-hover-bg);
-}
-
-.rdtPicker button:hover {
-  background-color: var(--picker-hover-bg);
-}
-
-.rdtPicker th.rdtDisabled,
-.rdtPicker th.rdtDisabled:hover {
-  color: var(--picker-disabled-color);
-}
-
-.rdtPicker .rdtDisabled,
-.rdtPicker .rdtDisabled:hover {
-  color: var(--picker-disabled-color);
 }
