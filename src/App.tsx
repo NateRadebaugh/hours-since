@@ -1,34 +1,35 @@
-import { format, parse, addMinutes } from "date-fns";
 import { useState, useEffect, useCallback } from "react";
 import QuickSet from "./components/QuickSet";
 import ThemeToggle from "./components/ThemeToggle";
 
 import useFaviconBadge from "./utils/useFaviconBadge";
-import useHoursSince, { timeFormat } from "./utils/useHoursSince";
+import useHoursSince from "./utils/useHoursSince";
+import {
+  parseTime,
+  parseTime24,
+  formatTime,
+  formatTime24,
+  addMinutes,
+  isValidDate,
+} from "./utils/timeHelpers";
 
-/**
- * Convert display format "h:mm a" (e.g. "5:15 AM") to HTML time input value "HH:mm" (e.g. "05:15").
- */
 function toInputValue(display: string | undefined): string {
   if (!display) return "";
-  const d = parse(display, timeFormat, new Date());
-  if (Number.isNaN(d.getTime())) return "";
-  return format(d, "HH:mm");
+  const d = parseTime(display);
+  if (!isValidDate(d)) return "";
+  return formatTime24(d);
 }
 
-/**
- * Convert HTML time input value "HH:mm" (e.g. "05:15") to display format "h:mm a" (e.g. "5:15 AM").
- */
 function fromInputValue(value: string): string {
   if (!value) return "";
-  const d = parse(value, "HH:mm", new Date());
-  if (Number.isNaN(d.getTime())) return "";
-  return format(d, timeFormat);
+  const d = parseTime24(value);
+  if (!isValidDate(d)) return "";
+  return formatTime(d);
 }
 
 const startTimes: Date[] = [];
 for (
-  let startTime = parse("5:15 AM", timeFormat, new Date()), i = 0;
+  let startTime = parseTime("5:15 AM"), i = 0;
   i < 12;
   startTime = addMinutes(startTime, 15), i++
 ) {

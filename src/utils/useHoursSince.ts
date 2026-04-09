@@ -1,11 +1,6 @@
-import * as React from "react";
-import { differenceInMinutes, parse, format, isDate, isValid } from "date-fns";
+import { useState, useCallback, useEffect } from "react";
 import useInterval from "./useInterval";
-
-const { useState, useCallback, useEffect } = React;
-
-const dayFormat = "MM/dd/yyyy";
-export const timeFormat = "h:mm a";
+import { parseTime, differenceInMinutes, isValidDate } from "./timeHelpers";
 
 export interface HoursSinceDetails {
   isPast: boolean | undefined;
@@ -23,12 +18,8 @@ function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
     (startDateTime: Date | undefined) => {
       const nowTime = new Date();
 
-      if (!startDateTime || !isDate(startDateTime) || !isValid(startDateTime)) {
-        startDateTime = parse(
-          `${format(nowTime, `${dayFormat}`)} ${sinceTime}`,
-          `${dayFormat} ${timeFormat}`,
-          new Date(),
-        );
+      if (!startDateTime || !isValidDate(startDateTime)) {
+        startDateTime = parseTime(sinceTime ?? "");
       }
 
       let minutesBetween = differenceInMinutes(nowTime, startDateTime);
@@ -59,11 +50,11 @@ function useHoursSince(sinceTime: string | undefined): HoursSinceDetails {
   );
 
   useEffect(() => {
-    update(sinceTime ? parse(sinceTime, timeFormat, new Date()) : undefined);
+    update(sinceTime ? parseTime(sinceTime) : undefined);
   }, [sinceTime, update]);
 
   useInterval(() => {
-    update(sinceTime ? parse(sinceTime, timeFormat, new Date()) : undefined);
+    update(sinceTime ? parseTime(sinceTime) : undefined);
   }, 10_000);
 
   const relativeWord = isPast === true ? "after" : isPast === false ? "before" : undefined;

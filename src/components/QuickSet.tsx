@@ -1,6 +1,4 @@
-import clsx from "clsx";
-import { format } from "date-fns";
-import { timeFormat } from "../utils/useHoursSince";
+import { formatTime } from "../utils/timeHelpers";
 
 import styles from "./QuickSet.module.css";
 
@@ -12,16 +10,16 @@ interface QuickSetProps {
 
 export default function QuickSet({ startTimes, sinceTime, setSinceTime }: QuickSetProps) {
   return (
-    <div className={clsx(styles.wrapper, !sinceTime && styles.empty)}>
+    <div className={`${styles.wrapper}${!sinceTime ? ` ${styles.empty}` : ""}`}>
       {startTimes.map((startTime) => {
-        const formatted = format(startTime, timeFormat);
+        const formatted = formatTime(startTime);
         const isSelected = formatted === sinceTime;
 
         return (
           <span key={formatted}>
             <button
               type="button"
-              className={clsx(["btn", isSelected ? "btn-primary" : "btn-secondary"])}
+              className={`btn ${isSelected ? "btn-primary" : "btn-secondary"}`}
               disabled={isSelected}
               onClick={() => setSinceTime(formatted)}
             >
