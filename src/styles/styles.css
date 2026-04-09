@@ -1,26 +1,3 @@
-@import "@nateradebaugh/react-datetime/scss/styles.scss";
-
-@mixin dark-theme {
-  --bg-color: #121212;
-  --text-color: #e0e0e0;
-  --input-color: #e0e0e0;
-  --input-bg: #1e1e1e;
-  --input-border: #444;
-  --btn-color: #e0e0e0;
-  --btn-primary-bg: #ed1a3b;
-  --btn-primary-hover-bg: #ff2e50;
-  --btn-secondary-bg: #555;
-  --btn-secondary-hover-bg: #666;
-  --focus-shadow: #3a7bd5;
-  --picker-bg: #1e1e1e;
-  --picker-border: rgba(255, 255, 255, 0.15);
-  --picker-color: #e0e0e0;
-  --picker-hover-bg: #2a2a2a;
-  --picker-hover-color: #fff;
-  --picker-divider: #333;
-  --picker-disabled-color: #666;
-}
-
 :root {
   --bg-color: #fff;
   --text-color: #212529;
@@ -43,12 +20,46 @@
 }
 
 [data-theme="dark"] {
-  @include dark-theme;
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --input-color: #e0e0e0;
+  --input-bg: #1e1e1e;
+  --input-border: #444;
+  --btn-color: #e0e0e0;
+  --btn-primary-bg: #ed1a3b;
+  --btn-primary-hover-bg: #ff2e50;
+  --btn-secondary-bg: #555;
+  --btn-secondary-hover-bg: #666;
+  --focus-shadow: #3a7bd5;
+  --picker-bg: #1e1e1e;
+  --picker-border: rgba(255, 255, 255, 0.15);
+  --picker-color: #e0e0e0;
+  --picker-hover-bg: #2a2a2a;
+  --picker-hover-color: #fff;
+  --picker-divider: #333;
+  --picker-disabled-color: #666;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    @include dark-theme;
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --input-color: #e0e0e0;
+    --input-bg: #1e1e1e;
+    --input-border: #444;
+    --btn-color: #e0e0e0;
+    --btn-primary-bg: #ed1a3b;
+    --btn-primary-hover-bg: #ff2e50;
+    --btn-secondary-bg: #555;
+    --btn-secondary-hover-bg: #666;
+    --focus-shadow: #3a7bd5;
+    --picker-bg: #1e1e1e;
+    --picker-border: rgba(255, 255, 255, 0.15);
+    --picker-color: #e0e0e0;
+    --picker-hover-bg: #2a2a2a;
+    --picker-hover-color: #fff;
+    --picker-divider: #333;
+    --picker-disabled-color: #666;
   }
 }
 
@@ -133,21 +144,21 @@ fieldset:disabled .btn {
 .btn-primary {
   color: #fff;
   background-color: var(--btn-primary-bg);
-
-  &:hover {
-    color: #fff;
-    background-color: var(--btn-primary-hover-bg);
-  }
 }
 
 .btn-secondary {
   color: #fff;
   background-color: var(--btn-secondary-bg);
+}
 
-  &:hover {
-    color: #fff;
-    background-color: var(--btn-secondary-hover-bg);
-  }
+.btn-primary:hover {
+  color: #fff;
+  background-color: var(--btn-primary-hover-bg);
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background-color: var(--btn-secondary-hover-bg);
 }
 
 .btn-primary:focus,
@@ -166,57 +177,64 @@ fieldset:disabled .btn {
   transform: translateY(1px);
 }
 
-// Dark mode overrides for react-datetime picker
+/* Dark mode overrides for react-datetime picker */
 .rdtPicker {
   background: var(--picker-bg);
   border-color: var(--picker-border);
   color: var(--picker-color);
+}
 
-  .rdtCounter .rdtBtn,
-  .rdtYear,
-  .rdtMonth,
-  .rdtDay,
-  .rdtHour,
-  .rdtMinute,
-  .rdtSecond,
-  .rdtTimeToggle {
-    color: var(--picker-color);
+.rdtPicker .rdtCounter .rdtBtn,
+.rdtPicker .rdtYear,
+.rdtPicker .rdtMonth,
+.rdtPicker .rdtDay,
+.rdtPicker .rdtHour,
+.rdtPicker .rdtMinute,
+.rdtPicker .rdtSecond,
+.rdtPicker .rdtTimeToggle {
+  color: var(--picker-color);
+}
 
-    &:hover {
-      background: var(--picker-hover-bg);
-      color: var(--picker-hover-color);
-    }
-  }
+.rdtPicker .rdtCounter .rdtBtn:hover,
+.rdtPicker .rdtYear:hover,
+.rdtPicker .rdtMonth:hover,
+.rdtPicker .rdtDay:hover,
+.rdtPicker .rdtHour:hover,
+.rdtPicker .rdtMinute:hover,
+.rdtPicker .rdtSecond:hover,
+.rdtPicker .rdtTimeToggle:hover {
+  background: var(--picker-hover-bg);
+  color: var(--picker-hover-color);
+}
 
-  .rdtPrev,
-  .rdtSwitch,
-  .rdtNext {
-    color: var(--picker-color);
-  }
+.rdtPicker .rdtPrev,
+.rdtPicker .rdtSwitch,
+.rdtPicker .rdtNext {
+  color: var(--picker-color);
+}
 
-  th {
-    border-bottom-color: var(--picker-divider);
-  }
+.rdtPicker th {
+  border-bottom-color: var(--picker-divider);
+}
 
-  .rdtTimeToggle {
-    border-top-color: var(--picker-divider);
-  }
+.rdtPicker .rdtTimeToggle {
+  border-top-color: var(--picker-divider);
+}
 
-  thead tr:first-child th:hover {
-    background: var(--picker-hover-bg);
-  }
+.rdtPicker thead tr:first-child th:hover {
+  background: var(--picker-hover-bg);
+}
 
-  button:hover {
-    background-color: var(--picker-hover-bg);
-  }
+.rdtPicker button:hover {
+  background-color: var(--picker-hover-bg);
+}
 
-  th.rdtDisabled,
-  th.rdtDisabled:hover {
-    color: var(--picker-disabled-color);
-  }
+.rdtPicker th.rdtDisabled,
+.rdtPicker th.rdtDisabled:hover {
+  color: var(--picker-disabled-color);
+}
 
-  .rdtDisabled,
-  .rdtDisabled:hover {
-    color: var(--picker-disabled-color);
-  }
+.rdtPicker .rdtDisabled,
+.rdtPicker .rdtDisabled:hover {
+  color: var(--picker-disabled-color);
 }

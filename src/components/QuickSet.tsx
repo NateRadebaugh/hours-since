@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { format } from "date-fns";
 import { timeFormat } from "../utils/useHoursSince";
 
-import styles from "./QuickSet.module.scss";
+import styles from "./QuickSet.module.css";
 
 interface QuickSetProps {
   startTimes: Date[];

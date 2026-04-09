@@ -2,11 +2,11 @@
   opacity: 0.1;
 
   transition: all 0.15s ease-in-out;
+}
 
-  &:focus-within,
-  &:hover {
-    opacity: 1;
-  }
+.wrapper:focus-within,
+.wrapper:hover {
+  opacity: 1;
 }
 
 .empty {

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import styles from "./ThemeToggle.module.scss";
+import styles from "./ThemeToggle.module.css";
 
 type Theme = "light" | "dark";
 
