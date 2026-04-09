@@ -13,8 +13,8 @@
   transition:
     background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out;
+}
 
-  &:hover {
-    background-color: var(--picker-hover-bg);
-  }
+.toggle:hover {
+  background-color: var(--picker-hover-bg);
 }
