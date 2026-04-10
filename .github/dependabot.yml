@@ -6,8 +6,7 @@ updates:
       interval: daily
     open-pull-requests-limit: 10
     cooldown:
-      default: 3
-      applies-to: security-updates
+      default-days: 3
     groups:
       react:
         patterns:
